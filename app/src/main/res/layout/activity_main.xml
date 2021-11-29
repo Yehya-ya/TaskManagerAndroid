@@ -19,9 +19,6 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toTopOf="@id/linearLayout" />
 
-
-
-
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -51,7 +48,7 @@
             android:hint="Username"
             android:inputType="textEmailAddress"
             android:minHeight="48dp"
-            android:autofillHints="newUsername" />
+            android:autofillHints="newUsername"/>
 
         <TextView
             android:id="@+id/textViewEmail"
@@ -70,7 +67,7 @@
             android:hint="Email"
             android:inputType="textEmailAddress"
             android:minHeight="48dp"
-            android:autofillHints="emailAddress" />
+            android:autofillHints="emailAddress"/>
 
         <TextView
             android:id="@+id/textViewPassword"
@@ -89,7 +86,7 @@
             android:hint="Password"
             android:inputType="textPassword"
             android:minHeight="48dp"
-            android:autofillHints="newPassword" />
+            android:autofillHints="newPassword"/>
 
         <TextView
             android:id="@+id/textViewPasswordConfirmation"
@@ -108,7 +105,31 @@
             android:hint="Re-enter Password"
             android:inputType="textPassword"
             android:minHeight="48dp"
-            android:autofillHints="newPassword" />
+            android:autofillHints="newPassword"/>
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/test_1"
+            android:text="Register"
+            android:textColor="@color/white"
+            android:layout_margin="10dp"
+            android:onClick="register"/>
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="20dp"
+            android:text="Sign In?"
+            android:textColor="@color/test_1"
+            android:textStyle="bold"
+            android:textSize="32sp"
+            />
+
     </LinearLayout>
 
 
