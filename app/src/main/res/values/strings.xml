@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TaskManagerAndroid</string>
+    <string name="register_button">Welcome</string>
 </resources>

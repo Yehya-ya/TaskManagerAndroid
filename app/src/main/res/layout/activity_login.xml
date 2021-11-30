@@ -5,7 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".LoginActivity">
 
 
     <ImageView
@@ -31,24 +31,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imageView3">
 
-        <TextView
-            android:id="@+id/textViewUsername"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Username" />
 
-        <EditText
-            android:id="@+id/editTextUsername"
-            android:layout_width="300dp"
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="15dp"
-            android:autofillHints="newUsername"
-            android:ems="10"
-            android:hint="Username"
-            android:inputType="textEmailAddress"
-            android:minHeight="48dp" />
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="30dp"
+            android:text="Welcome"
+            android:textColor="@color/test_1"
+            android:textSize="40sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/textViewEmail"
@@ -88,24 +82,6 @@
             android:inputType="textPassword"
             android:minHeight="48dp" />
 
-        <TextView
-            android:id="@+id/textViewPasswordConfirmation"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Confirm Password" />
-
-        <EditText
-            android:id="@+id/editTextPasswordConfirmation"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="15dp"
-            android:autofillHints="newPassword"
-            android:ems="10"
-            android:hint="Re-enter Password"
-            android:inputType="textPassword"
-            android:minHeight="48dp" />
 
         <Button
             android:id="@+id/button"
@@ -114,17 +90,17 @@
             android:layout_gravity="center_horizontal"
             android:layout_margin="10dp"
             android:background="@color/test_1"
-            android:onClick="register"
-            android:text="Register"
+            android:onClick="login"
+            android:text="login"
             android:textColor="@color/white" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_margin="20dp"
-            android:text="Sign In?"
+            android:text="register?"
             android:textColor="@color/test_1"
             android:textSize="32sp"
             android:textStyle="bold" />
