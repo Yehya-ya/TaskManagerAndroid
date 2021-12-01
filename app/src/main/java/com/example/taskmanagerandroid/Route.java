@@ -1,30 +1,107 @@
 package com.example.taskmanagerandroid;
 
 public class Route {
-    public static final String BASE_URL = "https://tasks-manager-y.herokuapp.com/api";
-    public static final String REGISTER = BASE_URL + "/register";
-    public static final String LOGIN = BASE_URL + "/login";
-    public static final String LOGOUT = BASE_URL + "/logout";
-    public static final String PROJECT_ALL = BASE_URL + "/projects";
-    public static final String PROJECT_SHOW = BASE_URL + "/1";
-    public static final String PROJECT_CREATE = BASE_URL + "/projects";
-    public static final String PROJECT_UPDATE = BASE_URL + "/1";
-    public static final String PROJECT_DELETE = BASE_URL + "/1";
-    public static final String PROJECT_ADD_MEMBER = BASE_URL + "/add-member";
-    public static final String PROJECT_REMOVE_MEMBER = BASE_URL + "/remove-member";
-    public static final String USER_ALL = BASE_URL + "/users";
-    public static final String USER_SHOW = BASE_URL + "/1";
-    public static final String USER_UPDATE = BASE_URL + "/users";
-    public static final String USER_DELETE = BASE_URL + "/2";
-    public static final String CATEGORY_ALL = BASE_URL + "/categories";
-    public static final String CATEGORY_SHOW = BASE_URL + "/1";
-    public static final String CATEGORY_CREATE = BASE_URL + "/categories";
-    public static final String CATEGORY_UPDATE = BASE_URL + "/1";
-    public static final String CATEGORY_DELETE = BASE_URL + "/categories";
-    public static final String TASK_ALL = BASE_URL + "/tasks";
-    public static final String TASK_SHOW = BASE_URL + "/1";
-    public static final String TASK_CREATE = BASE_URL + "/tasks";
-    public static final String TASK_UPDATE = BASE_URL + "/1";
-    public static final String TASK_DELETE = BASE_URL + "/tasks";
+    private static final String BASE_URL = "https://tasks-manager-y.herokuapp.com/api";
+    private static final String PROJECTS = BASE_URL + "/projects";
+    private static final String USERS = BASE_URL + "/users";
 
+    public static String getBaseUrlRoute() {
+        return BASE_URL;
+    }
+
+    public static String getRegisterRoute() {
+        return BASE_URL + "/register";
+    }
+
+    public static String getLoginRoute() {
+        return BASE_URL + "/login";
+    }
+
+    public static String getLogoutRoute() {
+        return BASE_URL + "/logout";
+    }
+
+    public static String getProjectsAllRoute() {
+        return PROJECTS;
+    }
+
+    public static String getProjectsShowRoute(int project_id) {
+        return PROJECTS + "/" + project_id;
+    }
+
+    public static String getProjectsCreateRoute() {
+        return PROJECTS;
+    }
+
+    public static String getProjectsUpdateRoute(int project_id) {
+        return PROJECTS + "/" + project_id;
+    }
+
+    public static String getProjectsDeleteRoute(int project_id) {
+        return PROJECTS + "/" + project_id;
+    }
+
+    public static String getProjectsAddMemberRoute(int project_id) {
+        return PROJECTS + "/" + project_id + "/add-member";
+    }
+
+    public static String getProjectsRemoveMemberRoute(int project_id) {
+        return PROJECTS + "/" + project_id + "/remove-member";
+    }
+
+    public static String getUsersAllRoute() {
+        return USERS;
+    }
+
+    public static String getUsersShowRoute(int user_id) {
+        return USERS + "/" + user_id;
+    }
+
+    public static String getUsersUpdateRoute(int user_id) {
+        return USERS + "/" + user_id;
+    }
+
+    public static String getUsersDeleteRoute(int user_id) {
+        return USERS + "/" + user_id;
+    }
+
+    public static String getCategoriesAllRoute(int project_id) {
+        return PROJECTS + "/" + project_id + "/categories";
+    }
+
+    public static String getCategoriesShowRoute(int project_id, int category_id) {
+        return getCategoriesAllRoute(project_id) + "/" + category_id;
+    }
+
+    public static String getCategoriesCreateRoute(int project_id) {
+        return getCategoriesAllRoute(project_id);
+    }
+
+    public static String getCategoriesUpdateRoute(int project_id, int category_id) {
+        return getCategoriesAllRoute(project_id) + "/" + category_id;
+    }
+
+    public static String getCategoriesDeleteRoute(int project_id, int category_id) {
+        return getCategoriesAllRoute(project_id) + "/" + category_id;
+    }
+
+    public static String getTasksAllRoute(int project_id) {
+        return PROJECTS + "/" + project_id + "/tasks";
+    }
+
+    public static String getTasksShowRoute(int project_id, int task_id) {
+        return getTasksAllRoute(project_id) + "/" + task_id;
+    }
+
+    public static String getTasksCreateRoute(int project_id) {
+        return getTasksAllRoute(project_id);
+    }
+
+    public static String getTasksUpdateRoute(int project_id, int task_id) {
+        return getTasksAllRoute(project_id) + "/" + task_id;
+    }
+
+    public static String getTasksDeleteRoute(int project_id, int task_id) {
+        return getTasksAllRoute(project_id) + "/" + task_id;
+    }
 }

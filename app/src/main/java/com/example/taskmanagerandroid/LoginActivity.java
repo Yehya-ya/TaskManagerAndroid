@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login(View view) {
-        StringRequest request = new StringRequest(Request.Method.POST, Route.REGISTER,
+        StringRequest request = new StringRequest(Request.Method.POST, Route.getRegisterRoute(),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
