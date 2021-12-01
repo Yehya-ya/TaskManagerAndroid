@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void register(View view) {
-        StringRequest request = new StringRequest(Request.Method.POST, Route.REGISTER,
+        StringRequest request = new StringRequest(Request.Method.POST, Route.getRegisterRoute(),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -136,7 +136,6 @@ public class MainActivity extends AppCompatActivity {
                                 boolean hasName = errors.has("name");
                                 boolean hasEmail = errors.has("email");
                                 boolean hasPassword = errors.has("password");
-                                Log.v("register", errors.toString());
                                 if (hasName) {
                                     Log.v("register", String.valueOf(errors.getJSONArray("name")));
                                 }
