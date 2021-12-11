@@ -13,6 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TaskManagerAndroidNoActionbar">
         <activity
+            android:name=".ProjectActivity"
+            android:exported="false"
+            android:theme="@style/Theme.TaskManagerAndroid" />
+        <activity
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity
