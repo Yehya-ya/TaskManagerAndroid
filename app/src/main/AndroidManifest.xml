@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TaskManagerAndroidNoActionbar">
         <activity
-            android:name=".ProjectActivity"
+            android:name=".projects.ProjectAllActivity"
             android:exported="false"
             android:theme="@style/Theme.TaskManagerAndroid" />
         <activity
