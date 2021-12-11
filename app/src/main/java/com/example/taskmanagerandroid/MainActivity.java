@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.toolbox.StringRequest;
-import com.example.taskmanagerandroid.utils.MyRequest;
+import com.example.taskmanagerandroid.utils.MyRequestQueue;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         String access_token = sharedPref.getString("access_token", "");
-        Log.v("Main", "access token :" + access_token);
+        Log.v("Main", "access token: " + access_token);
         if (TextUtils.isEmpty(access_token)) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
                     },
                     error -> {
                         Log.v("Main", error.toString());
+                        startActivity(new Intent(this, LoginActivity.class));
                     }
             ) {
                 @NonNull
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
 
-            MyRequest.getInstance(this).addToRequestQueue(verifyRequest);
+            MyRequestQueue.getInstance(this).addToRequestQueue(verifyRequest);
         }
     }
 }
