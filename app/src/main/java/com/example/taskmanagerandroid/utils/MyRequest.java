@@ -18,7 +18,8 @@ import java.util.Map;
 public class MyRequest {
     private final String TAG = "MyRequest";
     private final Map<String, String> additionalHeaders;
-    private final Map<String, String> additionalParams;
+    private final Map<String, String> params;
+
     private int method;
     private String url;
     private Response.Listener<String> response;
@@ -27,7 +28,9 @@ public class MyRequest {
     public MyRequest() {
         this.method = Request.Method.GET;
         this.additionalHeaders = new HashMap<>();
-        this.additionalParams = new HashMap<>();
+        this.params = new HashMap<>();
+        errorHandler = new ErrorHandler() {
+        };
     }
 
     public void setMethod(int method) {
@@ -51,7 +54,7 @@ public class MyRequest {
     }
 
     public void addParam(String key, String value) {
-        this.additionalParams.put(key, value);
+        this.params.put(key, value);
     }
 
     public StringRequest getRequest() {
@@ -86,10 +89,8 @@ public class MyRequest {
         ) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = super.getHeaders();
-                if (headers == null) {
-                    headers = new HashMap<>();
-                }
+                Map<String, String> headers = new HashMap<>();
+
                 headers.put("Connection", "keep-alive");
                 headers.put("Accept", "application/json");
                 headers.putAll(MyRequest.this.additionalHeaders);
@@ -98,12 +99,8 @@ public class MyRequest {
 
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = super.getParams();
-                if (params == null) {
-                    params = new HashMap<>();
-                }
-                params.putAll(MyRequest.this.additionalParams);
-                return super.getParams();
+                return MyRequest.this.params;
+
             }
         };
     }
@@ -131,6 +128,7 @@ public class MyRequest {
         }
 
         default void handlingErrors(JSONObject errors) {
+            Log.e(this.getClass().toString(), errors.toString());
 
         }
 
