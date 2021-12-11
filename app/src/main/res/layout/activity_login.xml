@@ -40,7 +40,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="30dp"
             android:text="Welcome"
-            android:textColor="@color/test_1"
+            android:textColor="@color/primary_dark"
             android:textSize="40sp"
             android:textStyle="bold" />
 
@@ -89,7 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_margin="10dp"
-            android:background="@color/test_1"
+            android:background="@color/primary_dark"
             android:onClick="login"
             android:text="login"
             android:textColor="@color/white" />
@@ -101,7 +101,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_margin="20dp"
             android:text="Create New Account"
-            android:textColor="@color/test_1"
+            android:textColor="@color/primary_dark"
             android:textSize="18sp"
             android:textStyle="bold" />
 

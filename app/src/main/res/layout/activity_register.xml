@@ -113,7 +113,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_margin="10dp"
-            android:background="@color/test_1"
+            android:background="@color/primary_dark"
             android:onClick="register"
             android:text="Register"
             android:textColor="@color/white" />
@@ -125,7 +125,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_margin="20dp"
             android:text="Already have an account?"
-            android:textColor="@color/test_1"
+            android:textColor="@color/primary_dark"
             android:textSize="18sp"
             android:textStyle="bold" />
 
