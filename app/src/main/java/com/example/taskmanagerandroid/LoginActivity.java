@@ -11,20 +11,17 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import com.example.taskmanagerandroid.utils.MyRequest;
+import com.example.taskmanagerandroid.utils.MyRequestQueue;
+import com.example.taskmanagerandroid.utils.Route;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
-
 public class LoginActivity extends AppCompatActivity {
+
+    private static final String TAG = "LoginActivity";
 
     private EditText email;
     private EditText password;
@@ -32,7 +29,6 @@ public class LoginActivity extends AppCompatActivity {
     private TextView emailView;
     private TextView passwordView;
 
-    private RequestQueue queue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,83 +69,49 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent(this, RegisterActivity.class);
             startActivity(intent);
         });
-
-
-        this.queue = Volley.newRequestQueue(getApplicationContext());
     }
 
     public void login(View view) {
-        StringRequest request = new StringRequest(Request.Method.POST, Route.getLoginRoute(),
-                response -> {
-                    try {
-                        JSONObject object = new JSONObject(response);
-                        if (object.has("token")) {
-                            String token = object.getString("token");
-                            token = token.substring(2);
-                            SharedPreferences.Editor editor = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE).edit();
-                            editor.putString("access_token", token);
-                            editor.apply();
+        MyRequest request = new MyRequest();
+        request.setMethod(Request.Method.POST);
+        request.setUrl(Route.getLoginRoute());
+        request.addParam("email", email.getText().toString());
+        request.addParam("password", password.getText().toString());
 
-                            startActivity(new Intent(this, MainActivity.class));
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                },
-                error -> {
-                    final int statusCode = error.networkResponse.statusCode;
-                    Log.v("Login", new String(error.networkResponse.data, StandardCharsets.UTF_8));
-                    if (500 <= statusCode) {
-                        return;
-                    }
+        request.setResponse(response -> {
+            try {
+                JSONObject object = new JSONObject(response);
+                if (object.has("token")) {
+                    String token = object.getString("token");
+                    token = token.substring(2);
+                    SharedPreferences.Editor editor = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE).edit();
+                    editor.putString("access_token", token);
+                    editor.apply();
 
-                    if (300 <= statusCode && statusCode < 400) {
-                        return;
-                    }
-
-                    try {
-                        JSONObject body = new JSONObject(new String(error.networkResponse.data, StandardCharsets.UTF_8));
-                        try {
-                            JSONObject errors = body.getJSONObject("errors");
-                            boolean hasEmail = errors.has("email");
-                            boolean hasPassword = errors.has("password");
-                            Log.v("Login", errors.toString());
-                            if (hasEmail) {
-                                Log.v("Login", String.valueOf(errors.getJSONArray("email")));
-                            }
-                            if (hasPassword) {
-                                Log.v("Login", String.valueOf(errors.getJSONArray("password")));
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-
-                }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("email", "" + email.getText());
-                params.put("password", "" + password.getText());
-                return params;
+                    startActivity(new Intent(this, MainActivity.class));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+        });
 
-
+        request.setErrorHandler(new MyRequest.ErrorHandler() {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-
-                headers.put("Connection", "keep-alive");
-                headers.put("Accept", "application/json");
-
-                return headers;
+            public void handlingErrors(JSONObject errors) {
+                try {
+                    if (errors.has("email")) {
+                        Log.v(TAG, String.valueOf(errors.getJSONArray("email")));
+                    }
+                    if (errors.has("password")) {
+                        Log.v(TAG, String.valueOf(errors.getJSONArray("password")));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
-        };
+        });
 
-        queue.add(request);
+        MyRequestQueue.getInstance(this).addToRequestQueue(request);
     }
 }
 

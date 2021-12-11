@@ -1,4 +1,4 @@
-package com.example.taskmanagerandroid;
+package com.example.taskmanagerandroid.utils;
 
 public class Route {
     private static final String BASE_URL = "https://tasks-manager-y.herokuapp.com/api";

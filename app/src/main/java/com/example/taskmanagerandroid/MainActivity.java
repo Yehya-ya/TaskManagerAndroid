@@ -7,18 +7,17 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.toolbox.StringRequest;
+import com.example.taskmanagerandroid.utils.MyRequest;
 import com.example.taskmanagerandroid.utils.MyRequestQueue;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.example.taskmanagerandroid.utils.Route;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "MainActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,39 +25,38 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         String access_token = sharedPref.getString("access_token", "");
-        Log.v("Main", "access token: " + access_token);
+        Log.v(TAG, "access token: " + access_token);
         if (TextUtils.isEmpty(access_token)) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         } else {
-            StringRequest verifyRequest = new StringRequest(Request.Method.POST, Route.getTokenVerifyRoute(),
-                    response -> {
-                        Log.v("Main", response);
-                    },
-                    error -> {
-                        Log.v("Main", error.toString());
-                        startActivity(new Intent(this, LoginActivity.class));
-                    }
-            ) {
-                @NonNull
+            MyRequest request = new MyRequest();
+            request.setMethod(Request.Method.POST);
+            request.setUrl(Route.getTokenVerifyRoute());
+            request.setResponse(response -> {
+
+            });
+
+            request.setErrorHandler(new MyRequest.ErrorHandler() {
                 @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String, String> headers = new HashMap<>();
-
-                    headers.put("Connection", "keep-alive");
-                    headers.put("Accept", "application/json");
-                    headers.put("Authorization", "Bearer " + access_token);
-
-                    return headers;
+                public void action() {
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 }
+            });
 
-                @NonNull
+            MyRequest verifyRequest = new MyRequest();
+            verifyRequest.setMethod(Request.Method.POST);
+            verifyRequest.setUrl(Route.getTokenVerifyRoute());
+            verifyRequest.addHeader("Authorization", "Bearer " + access_token);
+            verifyRequest.setResponse(response -> {
+                Log.v(TAG, response);
+            });
+            verifyRequest.setErrorHandler(new MyRequest.ErrorHandler() {
                 @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    Map<String, String> params = new HashMap<>();
-                    return params;
+                public void action() {
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 }
-            };
+            });
 
             MyRequestQueue.getInstance(this).addToRequestQueue(verifyRequest);
         }
