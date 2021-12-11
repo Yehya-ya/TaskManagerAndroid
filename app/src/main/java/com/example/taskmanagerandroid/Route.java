@@ -17,6 +17,10 @@ public class Route {
         return BASE_URL + "/login";
     }
 
+    public static String getTokenVerifyRoute() {
+        return BASE_URL + "/verify_access_token";
+    }
+
     public static String getLogoutRoute() {
         return BASE_URL + "/logout";
     }
