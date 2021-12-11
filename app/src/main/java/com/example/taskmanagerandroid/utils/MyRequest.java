@@ -19,6 +19,7 @@ public class MyRequest {
     private final String TAG = "MyRequest";
     private final Map<String, String> additionalHeaders;
     private final Map<String, String> params;
+
     private int method;
     private String url;
     private Response.Listener<String> response;
@@ -89,6 +90,7 @@ public class MyRequest {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
+
                 headers.put("Connection", "keep-alive");
                 headers.put("Accept", "application/json");
                 headers.putAll(MyRequest.this.additionalHeaders);
@@ -98,6 +100,7 @@ public class MyRequest {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 return MyRequest.this.params;
+
             }
         };
     }
@@ -126,6 +129,7 @@ public class MyRequest {
 
         default void handlingErrors(JSONObject errors) {
             Log.e(this.getClass().toString(), errors.toString());
+
         }
 
         default void action() {
