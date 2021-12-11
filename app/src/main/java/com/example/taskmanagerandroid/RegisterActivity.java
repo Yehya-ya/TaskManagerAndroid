@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.toolbox.StringRequest;
-import com.example.taskmanagerandroid.utils.MyRequest;
+import com.example.taskmanagerandroid.utils.MyRequestQueue;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -159,6 +159,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
         };
 
-        MyRequest.getInstance(getApplicationContext()).addToRequestQueue(request);
+        MyRequestQueue.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
 }
