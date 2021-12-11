@@ -36,7 +36,7 @@ public class ProjectAllActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_project);
+        setContentView(R.layout.activity_project_all);
 
         Log.v(TAG, "start activity");
 
