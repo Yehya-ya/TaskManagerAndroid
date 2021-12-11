@@ -2,7 +2,6 @@ package com.example.taskmanagerandroid.utils;
 
 import android.content.Context;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
@@ -30,7 +29,7 @@ public class MyRequestQueue {
         return requestQueue;
     }
 
-    public <T> void addToRequestQueue(Request<T> req) {
-        getRequestQueue().add(req);
+    public void addToRequestQueue(MyRequest request) {
+        getRequestQueue().add(request.getRequest());
     }
 }

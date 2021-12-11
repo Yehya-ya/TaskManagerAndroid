@@ -1,6 +1,8 @@
 package com.example.taskmanagerandroid;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,19 +11,17 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.toolbox.StringRequest;
+import com.example.taskmanagerandroid.utils.MyRequest;
 import com.example.taskmanagerandroid.utils.MyRequestQueue;
+import com.example.taskmanagerandroid.utils.Route;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
-
 public class RegisterActivity extends AppCompatActivity {
+
+    private static final String TAG = "RegisterActivity";
 
     private EditText username;
     private EditText email;
@@ -94,70 +94,54 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void register(View view) {
-        StringRequest request = new StringRequest(Request.Method.POST, Route.getRegisterRoute(),
-                response -> {
-                    try {
-                        JSONObject object = new JSONObject(response);
-                        Log.v("register", object.toString());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                },
-                error -> {
-                    final int statusCode = error.networkResponse.statusCode;
-                    if (500 <= statusCode) {
-                        return;
-                    }
+        MyRequest request = new MyRequest();
+        request.setMethod(Request.Method.POST);
+        request.setUrl(Route.getRegisterRoute());
+        request.addParam("name", username.getText().toString());
+        request.addParam("email", email.getText().toString());
+        request.addParam("password", password.getText().toString());
+        request.addParam("password_confirmation", confirmPassword.getText().toString());
 
-                    if (300 <= statusCode && statusCode < 400) {
-                        return;
-                    }
+        request.setResponse(response -> {
+            try {
+                JSONObject object = new JSONObject(response);
+                if (object.has("token")) {
+                    String token = object.getString("token");
+                    token = token.substring(2);
+                    SharedPreferences.Editor editor = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE).edit();
+                    editor.putString("access_token", token);
+                    editor.apply();
 
-                    try {
-                        JSONObject body = new JSONObject(new String(error.networkResponse.data, StandardCharsets.UTF_8));
+                    startActivity(new Intent(this, MainActivity.class));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        });
+
+        request.setErrorHandler(
+                new MyRequest.ErrorHandler() {
+                    @Override
+                    public void handlingErrors(JSONObject errors) {
                         try {
-                            JSONObject errors = body.getJSONObject("errors");
                             boolean hasName = errors.has("name");
                             boolean hasEmail = errors.has("email");
                             boolean hasPassword = errors.has("password");
                             if (hasName) {
-                                Log.v("register", String.valueOf(errors.getJSONArray("name")));
+                                Log.v(TAG, String.valueOf(errors.getJSONArray("name")));
                             }
                             if (hasEmail) {
-                                Log.v("register", String.valueOf(errors.getJSONArray("email")));
+                                Log.v(TAG, String.valueOf(errors.getJSONArray("email")));
                             }
                             if (hasPassword) {
-                                Log.v("register", String.valueOf(errors.getJSONArray("password")));
+                                Log.v(TAG, String.valueOf(errors.getJSONArray("password")));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
-
-
-                }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("name", "" + username.getText());
-                params.put("email", "" + email.getText());
-                params.put("password", "" + password.getText());
-                params.put("password_confirmation", "" + confirmPassword.getText());
-                return params;
-            }
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-
-                headers.put("Connection", "keep-alive");
-                headers.put("Accept", "application/json");
-
-                return headers;
-            }
-        };
+                }
+        );
 
         MyRequestQueue.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
