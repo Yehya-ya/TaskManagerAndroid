@@ -1,5 +1,8 @@
 package com.example.taskmanagerandroid.models;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.LinkedList;
 
 public class User {
@@ -8,6 +11,12 @@ public class User {
     private final String email;
     private LinkedList<Project> projects;
     private LinkedList<Project> projects_member_in;
+
+    public User(JSONObject data) throws JSONException {
+        this.id = data.getInt("id");
+        this.name = data.getString("name");
+        this.email = data.getString("email");
+    }
 
     public User(int id, String name, String email) {
         this.id = id;

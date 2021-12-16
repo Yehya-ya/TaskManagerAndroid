@@ -1,5 +1,8 @@
 package com.example.taskmanagerandroid.models;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.sql.Date;
 
 public class Task {
@@ -19,6 +22,13 @@ public class Task {
         this.title = title;
         this.description = description;
         this.end_at = end_at != null ? Date.valueOf(end_at) : null;
+    }
+
+    public Task(JSONObject taskObject) throws JSONException {
+        this.id = taskObject.getInt("id");
+        this.title = taskObject.getString("title");
+        this.description = taskObject.isNull("description") ? null : taskObject.getString("description");
+        this.end_at = taskObject.isNull("end_at") ? null : Date.valueOf(taskObject.getString("end_at"));
     }
 
     public int getId() {
