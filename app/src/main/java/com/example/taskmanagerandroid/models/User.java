@@ -3,14 +3,20 @@ package com.example.taskmanagerandroid.models;
 import java.util.LinkedList;
 
 public class User {
+    private final int id;
     private final String name;
     private final String email;
     private LinkedList<Project> projects;
     private LinkedList<Project> projects_member_in;
 
-    public User(String name, String email) {
+    public User(int id, String name, String email) {
+        this.id = id;
         this.name = name;
         this.email = email;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {

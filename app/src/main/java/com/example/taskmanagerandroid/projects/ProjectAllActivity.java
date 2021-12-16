@@ -1,4 +1,4 @@
-package com.example.taskmanagerandroid;
+package com.example.taskmanagerandroid.projects;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
+import com.example.taskmanagerandroid.R;
 import com.example.taskmanagerandroid.adapters.ProjectAdapter;
 import com.example.taskmanagerandroid.models.Project;
 import com.example.taskmanagerandroid.utils.MyRequest;
@@ -24,9 +25,9 @@ import org.json.JSONObject;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ProjectActivity extends AppCompatActivity {
+public class ProjectAllActivity extends AppCompatActivity {
 
-    private static final String TAG = "ProjectActivity";
+    private static final String TAG = "ProjectAllActivity";
 
     private RecyclerView projectsView;
     private ProjectAdapter projectAdapter;
@@ -35,7 +36,7 @@ public class ProjectActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_project);
+        setContentView(R.layout.activity_project_all);
 
         Log.v(TAG, "start activity");
 
