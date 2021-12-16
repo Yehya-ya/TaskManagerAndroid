@@ -1,7 +1,5 @@
 package com.example.taskmanagerandroid.adapters;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -16,7 +14,6 @@ import java.util.List;
 
 public class CategoryCollectionAdapter extends FragmentStateAdapter {
 
-    private int mProjectId;
     private List<Category> mCategories;
 
     public CategoryCollectionAdapter(FragmentActivity fragment, int projectId) {
@@ -29,9 +26,6 @@ public class CategoryCollectionAdapter extends FragmentStateAdapter {
         final CategoryCollectionViewModel model = new ViewModelProvider(fragment, factory).get(CategoryCollectionViewModel.class);
         model.getCategories().observe(fragment, categories -> {
             mCategories = categories;
-            for (int i = 0; i < categories.size(); i++) {
-                Log.v("test", categories.get(i).getTitle());
-            }
             notifyDataSetChanged();
         });
     }
