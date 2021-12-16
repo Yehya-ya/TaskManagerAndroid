@@ -3,19 +3,20 @@ package com.example.taskmanagerandroid.models;
 import java.util.LinkedList;
 
 public class Category {
-    private final long id;
+    private final int id;
     private final String title;
     private final String description;
     private LinkedList<Task> tasks;
     private Project project;
+    private int project_id;
 
-    public Category(long id, String title, String description) {
+    public Category(int id, String title, String description) {
         this.id = id;
         this.title = title;
         this.description = description;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -25,6 +26,14 @@ public class Category {
 
     public String getDescription() {
         return description;
+    }
+
+    public int getProjectId() {
+        return project_id;
+    }
+
+    public void setProjectId(int project_id) {
+        this.project_id = project_id;
     }
 
     public LinkedList<Task> getTasks() {
@@ -37,6 +46,7 @@ public class Category {
 
     public void setProject(Project project) {
         this.project = project;
+        this.project_id = project.getId();
     }
 
     public void addTask(Task task) {

@@ -3,21 +3,22 @@ package com.example.taskmanagerandroid.models;
 import java.util.LinkedList;
 
 public class Project {
-    private final long id;
+    private final int id;
     private final String title;
     private final String description;
     private User owner;
+    private int owner_id;
     private LinkedList<User> members;
     private LinkedList<Task> tasks;
     private LinkedList<Category> categories;
 
-    public Project(long id, String title, String description) {
+    public Project(int id, String title, String description) {
         this.id = id;
         this.title = title;
         this.description = description;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -29,12 +30,21 @@ public class Project {
         return description;
     }
 
+    public int getOwnerId() {
+        return owner_id;
+    }
+
+    public void setOwnerId(int owner_id) {
+        this.owner_id = owner_id;
+    }
+
     public User getOwner() {
         return owner;
     }
 
     public void setOwner(User owner) {
         this.owner = owner;
+        this.owner_id = owner.getId();
     }
 
     public LinkedList<User> getMembers() {
