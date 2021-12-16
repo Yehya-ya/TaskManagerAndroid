@@ -53,6 +53,10 @@ public class MyRequest {
         this.additionalHeaders.put(key, value);
     }
 
+    public void addAuthorizationHeader(String token) {
+        this.additionalHeaders.put("Authorization", "Bearer " + token);
+    }
+
     public void addParam(String key, String value) {
         this.params.put(key, value);
     }
@@ -129,7 +133,6 @@ public class MyRequest {
 
         default void handlingErrors(JSONObject errors) {
             Log.e(this.getClass().toString(), errors.toString());
-
         }
 
         default void action() {
