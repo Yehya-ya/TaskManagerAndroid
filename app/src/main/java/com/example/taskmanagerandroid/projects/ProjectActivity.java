@@ -1,19 +1,18 @@
 package com.example.taskmanagerandroid.projects;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.taskmanagerandroid.R;
 import com.example.taskmanagerandroid.adapters.CategoryCollectionAdapter;
-import com.example.taskmanagerandroid.models.Category;
+import com.example.taskmanagerandroid.viewmodels.ProjectViewModel;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-
-import java.util.LinkedList;
-import java.util.List;
 
 
 public class ProjectActivity extends AppCompatActivity {
@@ -22,10 +21,9 @@ public class ProjectActivity extends AppCompatActivity {
 
     private CategoryCollectionAdapter adapter;
     private Toolbar mToolbar;
+    private TextView mTitle;
     private TabLayout mTabLayout;
     private ViewPager2 mViewPager;
-
-    private List<Category> mCategories;
 
     private int project_id;
 
@@ -34,16 +32,22 @@ public class ProjectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project);
 
-        mCategories = new LinkedList<>();
         mToolbar = findViewById(R.id.toolbar);
         mViewPager = findViewById(R.id.viewpager);
         mTabLayout = findViewById(R.id.tabs);
 
 
         setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mTitle = mToolbar.findViewById(R.id.toolbar_title);
 
         project_id = getIntent().getIntExtra("project_id", -1);
+
+        ProjectViewModel projectModel = new ViewModelProvider(this, new ProjectViewModel.Factory(getApplication(), project_id)).get(ProjectViewModel.class);
+        projectModel.getProject().observe(this, project -> {
+            mTitle.setText(project.getTitle());
+        });
 
         adapter = new CategoryCollectionAdapter(this, project_id);
         mViewPager = findViewById(R.id.viewpager);
