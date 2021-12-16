@@ -1,6 +1,5 @@
 package com.example.taskmanagerandroid.adapters;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -12,9 +11,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.taskmanagerandroid.LoginActivity;
 import com.example.taskmanagerandroid.R;
 import com.example.taskmanagerandroid.models.Project;
+import com.example.taskmanagerandroid.projects.ProjectActivity;
 
 import java.util.List;
 
@@ -64,7 +63,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
 
         TextView title;
         TextView description;
-        long project_id = -1;
+        int project_id = -1;
 
         public ProjectViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -78,7 +77,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
                     Log.e(TAG, "unknown project id" + project_id);
                     return;
                 }
-                Intent intent = new Intent(context, LoginActivity.class);
+                Intent intent = new Intent(context, ProjectActivity.class);
                 intent.putExtra("project_id", project_id);
 
                 context.startActivity(intent);
