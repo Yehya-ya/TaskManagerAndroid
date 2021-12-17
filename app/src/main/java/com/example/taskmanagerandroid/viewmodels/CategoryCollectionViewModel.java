@@ -2,7 +2,6 @@ package com.example.taskmanagerandroid.viewmodels;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -49,7 +48,6 @@ public class CategoryCollectionViewModel extends AndroidViewModel {
                     );
                     tempCategory.setProjectId(mProjectId);
                     categoryList.add(tempCategory);
-                    Log.v("fd", categoryObject.toString());
                 }
                 mCategories.setValue(categoryList);
             } catch (JSONException e) {

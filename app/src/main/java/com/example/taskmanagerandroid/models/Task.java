@@ -1,15 +1,20 @@
 package com.example.taskmanagerandroid.models;
 
+import android.os.Build;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class Task {
     private final int id;
     private final String title;
     private final String description;
-    private final Date end_at;
+    private Date end_at;
     private Project project;
     private int project_id;
     private Category category;
@@ -21,14 +26,22 @@ public class Task {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.end_at = end_at != null ? Date.valueOf(end_at) : null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && end_at != null) {
+            DateTimeFormatter input = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'", Locale.getDefault());
+            DateTimeFormatter output = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.getDefault());
+            this.end_at = Date.valueOf(output.format(LocalDate.parse(end_at, input)));
+        }
     }
 
     public Task(JSONObject taskObject) throws JSONException {
         this.id = taskObject.getInt("id");
         this.title = taskObject.getString("title");
         this.description = taskObject.isNull("description") ? null : taskObject.getString("description");
-        this.end_at = taskObject.isNull("end_at") ? null : Date.valueOf(taskObject.getString("end_at"));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && !taskObject.isNull("end_at")) {
+            DateTimeFormatter input = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'", Locale.getDefault());
+            DateTimeFormatter output = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.getDefault());
+            this.end_at = Date.valueOf(output.format(LocalDate.parse(taskObject.getString("end_at"), input)));
+        }
     }
 
     public int getId() {

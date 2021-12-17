@@ -1,10 +1,10 @@
 package com.example.taskmanagerandroid.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -62,16 +62,15 @@ public class CategoryFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mButton = view.findViewById(R.id.create_new_task);
         mButton.setOnClickListener(view1 -> {
-            Log.v("test", "dfdfdf");
-            mTaskModel.createTask("this is Task", "this is description for task", null, success -> {
-                if (success) {
-                    Log.v("test", "true");
-
-                } else {
-                    Log.v("test", "false");
-
-                }
+            NewTaskDialogFragment dialogFragment = new NewTaskDialogFragment();
+            dialogFragment.setActionListener(success -> {
+                mTaskModel.createTask(dialogFragment.getTitle(), dialogFragment.getDescription(), dialogFragment.getDate(), success2 -> {
+                    if (success2) {
+                        Toast.makeText(getActivity(), "Task has been created successfully.", Toast.LENGTH_LONG).show();
+                    }
+                });
             });
+            dialogFragment.show(getParentFragmentManager(), "newTask");
         });
 
         mRecyclerView = view.findViewById(R.id.task_recycler);
