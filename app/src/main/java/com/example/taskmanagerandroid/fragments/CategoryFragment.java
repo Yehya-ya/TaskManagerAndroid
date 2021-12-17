@@ -77,5 +77,14 @@ public class CategoryFragment extends Fragment {
         mRecyclerView = view.findViewById(R.id.task_recycler);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mTaskViewAdapter);
+        mRecyclerView.setOnScrollChangeListener((view1, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            if (scrollY > oldScrollY && mButton.isShown()) {
+                mButton.hide();
+            }
+
+            if (scrollY < oldScrollY && !mButton.isShown()) {
+                mButton.show();
+            }
+        });
     }
 }
