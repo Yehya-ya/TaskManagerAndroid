@@ -11,18 +11,15 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.taskmanagerandroid.R;
 import com.example.taskmanagerandroid.adapters.CategoryCollectionAdapter;
 import com.example.taskmanagerandroid.viewmodels.ProjectViewModel;
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 
 
 public class ProjectActivity extends AppCompatActivity {
 
     private static final String TAG = "ProjectActivity";
 
-    private CategoryCollectionAdapter adapter;
+    private CategoryCollectionAdapter mAdapter;
     private Toolbar mToolbar;
     private TextView mTitle;
-    private TabLayout mTabLayout;
     private ViewPager2 mViewPager;
 
     private int project_id;
@@ -32,17 +29,18 @@ public class ProjectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project);
 
+        project_id = getIntent().getIntExtra("project_id", -1);
+
         mToolbar = findViewById(R.id.toolbar);
         mViewPager = findViewById(R.id.viewpager);
-        mTabLayout = findViewById(R.id.tabs);
+        mTitle = mToolbar.findViewById(R.id.toolbar_title);
+        mAdapter = new CategoryCollectionAdapter(this, project_id);
 
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mTitle = mToolbar.findViewById(R.id.toolbar_title);
-
-        project_id = getIntent().getIntExtra("project_id", -1);
+        // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mViewPager.setAdapter(mAdapter);
 
         ProjectViewModel projectModel = new ViewModelProvider(this, new ProjectViewModel.Factory(getApplication(), project_id)).get(ProjectViewModel.class);
         projectModel.getProject().observe(this, project -> {
