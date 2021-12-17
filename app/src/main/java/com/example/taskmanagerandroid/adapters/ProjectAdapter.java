@@ -31,11 +31,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
 
     public void setProjects(List<Project> projects) {
         this.projects = projects;
-    }
-
-    public void addProject(Project project) {
-        this.projects.add(project);
-        this.notifyItemInserted(this.projects.size());
+        notifyDataSetChanged();
     }
 
     @NonNull
