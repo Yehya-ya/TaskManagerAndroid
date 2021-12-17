@@ -99,5 +99,15 @@ public class ProjectAllActivity extends AppCompatActivity {
 
             MyRequestQueue.getInstance(this).addToRequestQueue(addProjectRequest);
         });
+
+        projectsView.setOnScrollChangeListener((view, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            if (scrollY > oldScrollY + 12 && button.isShown()) {
+                button.hide();
+            }
+
+            if (scrollY < oldScrollY - 12 && !button.isShown()) {
+                button.show();
+            }
+        });
     }
 }
