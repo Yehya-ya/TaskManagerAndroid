@@ -1,7 +1,6 @@
 package com.example.taskmanagerandroid.viewmodels;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -39,7 +38,6 @@ public class ProjectViewModel extends AndroidViewModel {
         request.addAuthorizationHeader(AccountUtils.getAccessToken());
         request.setResponse(response -> {
             try {
-                Log.v("dfs", response);
                 JSONObject data = new JSONObject(response).getJSONObject("data");
                 JSONObject ownerObject = data.getJSONObject("owner");
                 Project project = new Project(data);
