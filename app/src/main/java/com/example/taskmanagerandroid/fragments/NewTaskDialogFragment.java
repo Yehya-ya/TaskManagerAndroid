@@ -6,7 +6,6 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -28,14 +27,6 @@ public class NewTaskDialogFragment extends DialogFragment {
     private Button mDateButton;
     private ActionListener listener;
     private Calendar mDate;
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_new_task_dialog, container);
-
-        return view;
-    }
 
     @NonNull
     @Override
@@ -70,7 +61,7 @@ public class NewTaskDialogFragment extends DialogFragment {
                 .setPositiveButton("Create", (dialogInterface, i) -> {
                     listener.action(true);
                 })
-                .setNegativeButton("cancel", (dialogInterface, i) -> {
+                .setNegativeButton("Cancel", (dialogInterface, i) -> {
                     listener.action(false);
                     dismiss();
                 });
