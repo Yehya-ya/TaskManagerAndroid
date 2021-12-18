@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        AccountUtils.login(getApplication(), success -> {
+        AccountUtils.verifyToken(getApplication(), success -> {
             if (success) {
                 startActivity(new Intent(this, ProjectAllActivity.class));
             } else {

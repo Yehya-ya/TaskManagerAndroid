@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MyRequest {
-    private final String TAG = "MyRequest";
+    private static final String TAG = "MyRequest";
     private final Map<String, String> additionalHeaders;
     private final Map<String, String> params;
 
@@ -61,12 +61,14 @@ public class MyRequest {
         this.params.put(key, value);
     }
 
-    public StringRequest getRequest() {
+    public StringRequest getRequest() throws Exception {
         if (this.url == null) {
-            Log.e(TAG, "set url value before send request");
+            Log.e(TAG, "try to create request without url");
+            throw new Exception("set url value before send request");
         }
         if (this.response == null) {
-            Log.e(TAG, "set url value before send request");
+            Log.e(TAG, "try to create request without response");
+            throw new Exception("set response value before send request");
         }
 
         return new StringRequest(
@@ -85,6 +87,7 @@ public class MyRequest {
                                 String message = body.getString("message");
                                 errorHandler.handlingMessage(message);
                             }
+                            errorHandler.action();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -113,13 +116,13 @@ public class MyRequest {
         final int statusCode = error.networkResponse.statusCode;
         if (500 <= statusCode) {
             Log.e(TAG, "could not connect to server.");
-            Log.e(TAG, error.networkResponse.toString());
+            Log.e(TAG, new String(error.networkResponse.data, StandardCharsets.UTF_8));
             return true;
         }
 
         if (300 <= statusCode && statusCode < 400) {
             Log.e(TAG, "bad request.");
-            Log.e(TAG, error.networkResponse.toString());
+            Log.e(TAG, new String(error.networkResponse.data, StandardCharsets.UTF_8));
             return true;
         }
 
@@ -128,11 +131,11 @@ public class MyRequest {
 
     public interface ErrorHandler {
         default void handlingMessage(String massage) {
-            Log.e(this.getClass().toString(), massage);
+            Log.e(TAG, massage);
         }
 
         default void handlingErrors(JSONObject errors) {
-            Log.e(this.getClass().toString(), errors.toString());
+            Log.e(TAG, errors.toString());
         }
 
         default void action() {
