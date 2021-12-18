@@ -7,8 +7,8 @@ import java.util.LinkedList;
 
 public class Category {
     private final int id;
-    private final String title;
-    private final String description;
+    private String title;
+    private String description;
     private LinkedList<Task> tasks;
     private Project project;
     private int project_id;
@@ -35,6 +35,14 @@ public class Category {
 
     public String getDescription() {
         return description;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getProjectId() {

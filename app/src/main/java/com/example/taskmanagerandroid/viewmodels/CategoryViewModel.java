@@ -1,7 +1,6 @@
 package com.example.taskmanagerandroid.viewmodels;
 
 import android.app.Application;
-import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -9,10 +8,10 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.taskmanagerandroid.R;
 import com.example.taskmanagerandroid.models.Category;
 import com.example.taskmanagerandroid.models.Project;
 import com.example.taskmanagerandroid.models.Task;
+import com.example.taskmanagerandroid.utils.AccountUtils;
 import com.example.taskmanagerandroid.utils.MyRequest;
 import com.example.taskmanagerandroid.utils.MyRequestQueue;
 import com.example.taskmanagerandroid.utils.Route;
@@ -41,8 +40,7 @@ public class CategoryViewModel extends AndroidViewModel {
     public void loadCategory() {
         MyRequest request = new MyRequest();
         request.setUrl(Route.getCategoriesShowRoute(mProjectId, mCategoryId));
-        String access_token = getApplication().getSharedPreferences(getApplication().getString(R.string.preference_file_key), Context.MODE_PRIVATE).getString("access_token", "");
-        request.addAuthorizationHeader(access_token);
+        request.addAuthorizationHeader(AccountUtils.getAccessToken());
         request.setResponse(response -> {
             try {
                 JSONObject data = new JSONObject(response).getJSONObject("data");
