@@ -57,7 +57,7 @@ public class NewTaskDialogFragment extends DialogFragment {
         });
 
         builder.setView(view)
-                .setTitle("Create New Task")
+                .setTitle("Add New Task")
                 .setPositiveButton("Create", (dialogInterface, i) -> {
                     listener.action(true);
                 })
