@@ -2,7 +2,6 @@ package com.example.taskmanagerandroid.utils;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
 
 import com.android.volley.Request;
 import com.example.taskmanagerandroid.R;
@@ -28,7 +27,6 @@ public class AccountUtils {
         verifyRequest.addAuthorizationHeader(access_token);
         verifyRequest.setResponse(response -> {
             try {
-                Log.v("test", response);
                 JSONObject data = new JSONObject(response).getJSONObject("data");
                 mUser = new User(data.getInt("id"), data.getString("name"), data.getString("email"));
                 mAccessToken = access_token;
