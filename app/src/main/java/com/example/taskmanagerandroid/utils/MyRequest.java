@@ -112,14 +112,14 @@ public class MyRequest {
     private boolean isServerOrClientErrors(VolleyError error) {
         final int statusCode = error.networkResponse.statusCode;
         if (500 <= statusCode) {
-            Log.v(TAG, "could not connect to server.");
-            Log.v(TAG, error.networkResponse.toString());
+            Log.e(TAG, "could not connect to server.");
+            Log.e(TAG, error.networkResponse.toString());
             return true;
         }
 
         if (300 <= statusCode && statusCode < 400) {
-            Log.v(TAG, "bad request.");
-            Log.v(TAG, error.networkResponse.toString());
+            Log.e(TAG, "bad request.");
+            Log.e(TAG, error.networkResponse.toString());
             return true;
         }
 
