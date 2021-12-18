@@ -1,6 +1,7 @@
 package com.example.taskmanagerandroid.viewmodels;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -22,6 +23,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ProjectCollectionViewModel extends AndroidViewModel {
+    private static final String TAG = "ProjectCollectionViewModel";
 
     private final MutableLiveData<List<Project>> mProjects;
 
@@ -85,6 +87,75 @@ public class ProjectCollectionViewModel extends AndroidViewModel {
                 listener.action(false);
                 e.printStackTrace();
             }
+        });
+        request.setErrorHandler(new MyRequest.ErrorHandler() {
+            @Override
+            public void action() {
+                listener.action(false);
+            }
+        });
+        MyRequestQueue.getInstance(getApplication()).addToRequestQueue(request);
+    }
+
+    public void editProject(int position, String title, String description, ActionListener listener) {
+        Project project;
+        try {
+            project = mProjects.getValue().get(position);
+        } catch (Exception exception) {
+            Log.e(TAG, "can not edit the project: " + exception.getMessage());
+            listener.action(false);
+            return;
+        }
+
+        MyRequest request = new MyRequest();
+        request.setMethod(Request.Method.PUT);
+        request.setUrl(Route.getProjectsUpdateRoute(project.getId()));
+        request.addAuthorizationHeader(AccountUtils.getAccessToken());
+        if (title != null)
+            request.addParam("title", title);
+        if (description != null)
+            request.addParam("description", description);
+
+        request.setResponse(response -> {
+            try {
+                JSONObject data = new JSONObject(response).getJSONObject("data");
+                project.setTitle(data.getString("title"));
+                project.setDescription(data.getString("description"));
+                mProjects.setValue(mProjects.getValue());
+                listener.action(true);
+            } catch (JSONException e) {
+                listener.action(false);
+                e.printStackTrace();
+            }
+        });
+        request.setErrorHandler(new MyRequest.ErrorHandler() {
+            @Override
+            public void action() {
+                listener.action(false);
+            }
+        });
+        MyRequestQueue.getInstance(getApplication()).addToRequestQueue(request);
+    }
+
+    public void deleteProject(int position, ActionListener listener) {
+        Project project;
+        try {
+            project = mProjects.getValue().get(position);
+        } catch (Exception exception) {
+            Log.e(TAG, "can not edit the project: " + exception.getMessage());
+            listener.action(false);
+            return;
+        }
+
+        MyRequest request = new MyRequest();
+        request.setMethod(Request.Method.DELETE);
+        request.setUrl(Route.getProjectsDeleteRoute(project.getId()));
+        request.addAuthorizationHeader(AccountUtils.getAccessToken());
+
+        request.setResponse(response -> {
+            mProjects.getValue().remove(position);
+            mProjects.setValue(mProjects.getValue());
+            listener.action(true);
         });
         request.setErrorHandler(new MyRequest.ErrorHandler() {
             @Override
