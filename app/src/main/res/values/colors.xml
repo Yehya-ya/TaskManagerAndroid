@@ -9,4 +9,5 @@
     <color name='background'>#F2F2F2</color>
     <color name='trans'>#00FFFFFF</color>
     <color name="danger">#B00020</color>
+    <color name="disabled">#55555555</color>
 </resources>

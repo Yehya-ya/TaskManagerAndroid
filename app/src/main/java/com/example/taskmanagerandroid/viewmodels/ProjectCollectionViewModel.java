@@ -119,8 +119,8 @@ public class ProjectCollectionViewModel extends AndroidViewModel {
         request.setResponse(response -> {
             try {
                 JSONObject data = new JSONObject(response).getJSONObject("data");
-                project.setTitle(data.getString("title"));
-                project.setDescription(data.getString("description"));
+                project.setTitle(title);
+                project.setDescription(description);
                 mProjects.setValue(mProjects.getValue());
                 listener.action(true);
             } catch (JSONException e) {
@@ -142,7 +142,7 @@ public class ProjectCollectionViewModel extends AndroidViewModel {
         try {
             project = mProjects.getValue().get(position);
         } catch (Exception exception) {
-            Log.e(TAG, "can not edit the project: " + exception.getMessage());
+            Log.e(TAG, "can not delete the project: " + exception.getMessage());
             listener.action(false);
             return;
         }

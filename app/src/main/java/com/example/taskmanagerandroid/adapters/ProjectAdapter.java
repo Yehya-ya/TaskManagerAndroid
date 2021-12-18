@@ -31,9 +31,11 @@ import com.example.taskmanagerandroid.viewmodels.ProjectCollectionViewModel;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder> {
+public class ProjectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final String TAG = "ProjectAdapter";
+    private static final int EMPTY_LAYOUT = 101;
+    private static final int LIST_LAYOUT = 102;
 
     private final Context mContext;
     ProjectCollectionViewModel mProjectsModel;
@@ -69,21 +71,28 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
 
     @NonNull
     @Override
-    public ProjectViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
+        if (viewType == EMPTY_LAYOUT) {
+            View view = inflater.inflate(R.layout.empty_porject_list_card, parent, false);
+            return new EmptyProjectViewHolder(view);
+        }
+
         View view = inflater.inflate(R.layout.project_card, parent, false);
         return new ProjectViewHolder(view, mContext);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ProjectViewHolder holder, int position) {
-        Project project = mProjects.get(position);
-        holder.title.setText(project.getTitle());
-        holder.description.setText(project.getDescription());
-        holder.project = project;
-        holder.menu.setOnClickListener(view -> {
-            showMenu(view, position);
-        });
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof ProjectViewHolder) {
+            Project project = mProjects.get(position);
+            ((ProjectViewHolder) holder).title.setText(project.getTitle());
+            ((ProjectViewHolder) holder).description.setText(project.getDescription());
+            ((ProjectViewHolder) holder).project = project;
+            ((ProjectViewHolder) holder).menu.setOnClickListener(view -> {
+                showMenu(view, position);
+            });
+        }
     }
 
     @SuppressLint("RestrictedApi")
@@ -136,10 +145,18 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
 
     @Override
     public int getItemCount() {
-        return mProjects.size();
+        return mProjects.size() == 0 ? 1 : mProjects.size();
     }
 
-    class ProjectViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public int getItemViewType(int position) {
+        if (mProjects.size() == 0) {
+            return EMPTY_LAYOUT;
+        }
+        return LIST_LAYOUT;
+    }
+
+    static class ProjectViewHolder extends RecyclerView.ViewHolder {
 
         private final Context mContext;
         TextView title;
@@ -164,6 +181,13 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
 
                 mContext.startActivity(intent);
             });
+        }
+    }
+
+    static class EmptyProjectViewHolder extends RecyclerView.ViewHolder {
+
+        public EmptyProjectViewHolder(@NonNull View itemView) {
+            super(itemView);
         }
     }
 }

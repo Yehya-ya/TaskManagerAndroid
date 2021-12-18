@@ -29,7 +29,7 @@ public class NewProjectDialogFragment extends DialogFragment {
         this.mDescription = view.findViewById(R.id.editProjectFragment_description);
 
         builder.setView(view)
-                .setTitle("Create New Project")
+                .setTitle("Add New Project")
                 .setPositiveButton("Create", (dialogInterface, i) -> {
                     listener.action(true);
                 })
