@@ -10,4 +10,5 @@
     <color name='trans'>#00FFFFFF</color>
     <color name="danger">#B00020</color>
     <color name="disabled">#55555555</color>
+    <color name="ic_launcher_background">#FFFFFF</color>
 </resources>
