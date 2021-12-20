@@ -50,7 +50,6 @@ public class AccountUtils {
             @Override
             public void action() {
                 errorHandler.action();
-                listener.action(false);
             }
         });
         MyRequestQueue.getInstance(application).addToRequestQueue(request);

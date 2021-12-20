@@ -3,16 +3,16 @@ package com.example.taskmanagerandroid.projects;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.taskmanagerandroid.AbstractActivity;
 import com.example.taskmanagerandroid.R;
 import com.example.taskmanagerandroid.adapters.ProjectAdapter;
 import com.example.taskmanagerandroid.fragments.NewProjectDialogFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class ProjectAllActivity extends AppCompatActivity {
+public class ProjectAllActivity extends AbstractActivity {
 
     private static final String TAG = "ProjectAllActivity";
 

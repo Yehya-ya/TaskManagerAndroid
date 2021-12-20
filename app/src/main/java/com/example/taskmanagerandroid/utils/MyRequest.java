@@ -87,11 +87,12 @@ public class MyRequest {
                                 String message = body.getString("message");
                                 errorHandler.handlingMessage(message);
                             }
-                            errorHandler.action();
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
+                    errorHandler.action();
                 }
         ) {
             @Override
@@ -113,6 +114,10 @@ public class MyRequest {
     }
 
     private boolean isServerOrClientErrors(VolleyError error) {
+        if (error.networkResponse == null) {
+            Log.e(TAG, "no response. check network connectivity");
+            return true;
+        }
         final int statusCode = error.networkResponse.statusCode;
         if (500 <= statusCode) {
             Log.e(TAG, "could not connect to server.");
