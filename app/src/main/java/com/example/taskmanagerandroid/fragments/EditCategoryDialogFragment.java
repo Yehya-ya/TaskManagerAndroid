@@ -42,7 +42,6 @@ public class EditCategoryDialogFragment extends DialogFragment {
                     listener.action(true);
                 })
                 .setNegativeButton("Cancel", (dialogInterface, i) -> {
-                    listener.action(false);
                     dismiss();
                 });
 

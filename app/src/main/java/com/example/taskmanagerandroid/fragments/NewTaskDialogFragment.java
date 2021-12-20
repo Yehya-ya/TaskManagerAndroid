@@ -53,6 +53,9 @@ public class NewTaskDialogFragment extends DialogFragment {
                     mDate.get(Calendar.MONTH),
                     mDate.get(Calendar.DAY_OF_MONTH)
             );
+            Calendar date = Calendar.getInstance();
+            date.add(Calendar.DATE, 1);
+            datePickerFragment.getDatePicker().setMinDate(date.getTimeInMillis());
             datePickerFragment.show();
         });
 
@@ -62,7 +65,6 @@ public class NewTaskDialogFragment extends DialogFragment {
                     listener.action(true);
                 })
                 .setNegativeButton("Cancel", (dialogInterface, i) -> {
-                    listener.action(false);
                     dismiss();
                 });
 

@@ -5,10 +5,6 @@ public class Route {
     private static final String PROJECTS = BASE_URL + "/projects";
     private static final String USERS = BASE_URL + "/users";
 
-    public static String getBaseUrlRoute() {
-        return BASE_URL;
-    }
-
     public static String getRegisterRoute() {
         return BASE_URL + "/register";
     }
