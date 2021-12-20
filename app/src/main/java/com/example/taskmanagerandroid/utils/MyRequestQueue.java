@@ -30,6 +30,10 @@ public class MyRequestQueue {
     }
 
     public void addToRequestQueue(MyRequest request) {
-        getRequestQueue().add(request.getRequest());
+        try {
+            getRequestQueue().add(request.getRequest());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

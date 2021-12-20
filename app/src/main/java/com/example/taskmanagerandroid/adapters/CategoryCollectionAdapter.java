@@ -1,7 +1,5 @@
 package com.example.taskmanagerandroid.adapters;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -43,7 +41,6 @@ public class CategoryCollectionAdapter extends FragmentStateAdapter {
                 mKeyMap.put(i, (long) category.hashCode());
             }
             mKeyMap.put(categories.size(), (long) addCategoryFragment.hashCode());
-            Log.v("test", mKeyMap.toString());
             notifyDataSetChanged();
         });
     }
@@ -73,10 +70,7 @@ public class CategoryCollectionAdapter extends FragmentStateAdapter {
     }
 
     public int getPosition(Long l) {
-        Log.v("test", "search for: " + l.longValue());
         for (int i = 0; i < mKeyMap.size(); i++) {
-            Log.v("test", "item " + i + ": " + mKeyMap.get(i).longValue());
-
             if (mKeyMap.get(i).longValue() == l.longValue()) {
                 return i;
             }
