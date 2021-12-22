@@ -97,6 +97,10 @@ public class Route {
         return getTasksAllRoute(project_id);
     }
 
+    public static String getTasksMoveRoute(int project_id, int task_id) {
+        return getTasksAllRoute(project_id) + "/" + task_id + "/move";
+    }
+
     public static String getTasksUpdateRoute(int project_id, int task_id) {
         return getTasksAllRoute(project_id) + "/" + task_id;
     }

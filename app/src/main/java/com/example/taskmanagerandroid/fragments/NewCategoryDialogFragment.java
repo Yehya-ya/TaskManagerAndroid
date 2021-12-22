@@ -16,7 +16,6 @@ import com.example.taskmanagerandroid.utils.ActionListener;
 
 public class NewCategoryDialogFragment extends DialogFragment {
     private EditText mTitle;
-    private EditText mDescription;
     private ActionListener listener;
 
     @NonNull
@@ -26,7 +25,8 @@ public class NewCategoryDialogFragment extends DialogFragment {
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.fragment_new_project_dialog, null);
         this.mTitle = view.findViewById(R.id.editProjectFragment_title);
-        this.mDescription = view.findViewById(R.id.editProjectFragment_description);
+        view.findViewById(R.id.description).setVisibility(View.GONE);
+
 
         builder.setView(view)
                 .setTitle("Add New Category")
@@ -45,11 +45,10 @@ public class NewCategoryDialogFragment extends DialogFragment {
     }
 
     public String getDescription() {
-        return mDescription.getText().toString().equals("") ? null : mDescription.getText().toString();
+        return null;
     }
 
     public void setActionListener(ActionListener listener) {
         this.listener = listener;
     }
-
 }

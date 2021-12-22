@@ -13,6 +13,8 @@ import com.example.taskmanagerandroid.models.Category;
 import com.example.taskmanagerandroid.utils.ActionListener;
 import com.example.taskmanagerandroid.viewmodels.CategoryCollectionViewModel;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +40,15 @@ public class CategoryCollectionAdapter extends FragmentStateAdapter {
         this.mCategoryViewModel.getCategories().observe(fragment, categories -> {
             for (int i = 0; i < categories.size(); i++) {
                 Category category = categories.get(i);
-                mKeyMap.put(i, (long) category.hashCode());
+                int previousId = 0;
+                int nextId = 0;
+                if (i > 0) {
+                    previousId = categories.get(i - 1).getId();
+                }
+                if (i < categories.size() - 1) {
+                    nextId = categories.get(i + 1).getId();
+                }
+                mKeyMap.put(i, (long) category.hashCode() + nextId + previousId);
             }
             mKeyMap.put(categories.size(), (long) addCategoryFragment.hashCode());
             notifyDataSetChanged();
@@ -69,9 +79,10 @@ public class CategoryCollectionAdapter extends FragmentStateAdapter {
         super.onBindViewHolder(holder, position, payloads);
     }
 
-    public int getPosition(Long l) {
-        for (int i = 0; i < mKeyMap.size(); i++) {
-            if (mKeyMap.get(i).longValue() == l.longValue()) {
+    public int getPosition(Category category) {
+        List<Category> categories = mCategoryViewModel.getCategories().getValue();
+        for (int i = 0; i < categories.size(); i++) {
+            if (categories.get(i).equals(category)) {
                 return i;
             }
         }
@@ -79,7 +90,11 @@ public class CategoryCollectionAdapter extends FragmentStateAdapter {
         return 0;
     }
 
+    @Nullable
     public Category getCategory(int position) {
+        if (position < 0 || this.mCategoryViewModel.getCategories().getValue().size() <= position) {
+            return null;
+        }
         return this.mCategoryViewModel.getCategories().getValue().get(position);
     }
 
@@ -93,5 +108,9 @@ public class CategoryCollectionAdapter extends FragmentStateAdapter {
 
     public void deleteCategory(int position, ActionListener listener) {
         this.mCategoryViewModel.deleteCategory(position, listener);
+    }
+
+    public void reloadCategoryViewModel() {
+        this.mCategoryViewModel.loadCategories();
     }
 }

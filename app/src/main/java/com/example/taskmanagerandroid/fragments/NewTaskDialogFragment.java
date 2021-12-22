@@ -76,7 +76,7 @@ public class NewTaskDialogFragment extends DialogFragment {
     }
 
     public String getDescription() {
-        return mDescription.getText().toString().equals("") ? null : mDescription.getText().toString();
+        return mDescription.getText().toString();
     }
 
     public String getDate() {

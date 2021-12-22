@@ -1,6 +1,7 @@
 package com.example.taskmanagerandroid.viewmodels;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -24,6 +25,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class TaskCollectionViewModel extends AndroidViewModel {
+    private final static String TAG = "TaskCollectionViewModel";
 
     private final int mProjectId;
     private final int mCategoryId;
@@ -47,12 +49,7 @@ public class TaskCollectionViewModel extends AndroidViewModel {
                 List<Task> taskList = new LinkedList<>();
                 for (int i = 0; i < tasks.length(); i++) {
                     JSONObject task = tasks.getJSONObject(i);
-                    Task tempTask = new Task(
-                            task.getInt("id"),
-                            task.getString("title"),
-                            task.isNull("description") ? null : task.getString("description"),
-                            task.isNull("end_at") ? null : task.getString("end_at")
-                    );
+                    Task tempTask = new Task(task);
                     tempTask.setProjectId(mProjectId);
                     tempTask.setCategoryId(mCategoryId);
                     taskList.add(tempTask);
@@ -74,21 +71,54 @@ public class TaskCollectionViewModel extends AndroidViewModel {
         request.setMethod(Request.Method.POST);
         request.setUrl(Route.getTasksCreateRoute(mProjectId));
         request.addAuthorizationHeader(AccountUtils.getAccessToken());
-        if (title != null)
-            request.addParam("title", title);
-        if (description != null)
-            request.addParam("description", description);
-        if (end_at != null)
-            request.addParam("end_at", end_at);
+
+        request.addParam("title", title);
+        request.addParam("description", description);
+        request.addParam("end_at", end_at);
 
         request.addParam("category_id", "" + mCategoryId);
         request.setResponse(response -> {
             try {
                 JSONObject data = new JSONObject(response).getJSONObject("data");
-                Task task = new Task(data.getInt("id"), title, description, end_at);
+                Task task = new Task(data);
                 task.setCategoryId(mCategoryId);
                 task.setProjectId(mProjectId);
                 mTasks.getValue().add(task);
+                mTasks.setValue(mTasks.getValue());
+                listener.action(true);
+            } catch (JSONException e) {
+                listener.action(false);
+                e.printStackTrace();
+            }
+        });
+        request.setErrorHandler(new MyRequest.ErrorHandler() {
+            @Override
+            public void action() {
+                listener.action(false);
+            }
+        });
+        MyRequestQueue.getInstance(getApplication()).addToRequestQueue(request);
+    }
+
+    public void moveTask(int position, int categoryId, ActionListener listener) {
+        Task task;
+        try {
+            task = mTasks.getValue().get(position);
+        } catch (Exception exception) {
+            Log.e(TAG, "can not move the category: " + exception.getMessage());
+            listener.action(false);
+            return;
+        }
+        MyRequest request = new MyRequest();
+        request.setMethod(Request.Method.PUT);
+        request.setUrl(Route.getTasksMoveRoute(mProjectId, task.getId()));
+        request.addAuthorizationHeader(AccountUtils.getAccessToken());
+        request.addParam("category_id", "" + categoryId);
+
+        request.setResponse(response -> {
+            try {
+                JSONObject data = new JSONObject(response).getJSONObject("data");
+                mTasks.getValue().remove(task);
                 mTasks.setValue(mTasks.getValue());
                 listener.action(true);
             } catch (JSONException e) {

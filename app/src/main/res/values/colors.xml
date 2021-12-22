@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
+    <color name="black">#FF303030</color>
     <color name="white">#FFFFFFFF</color>
     <color name='primary_dark'>#03318C</color>
     <color name='primary'>#035AA6</color>
@@ -9,6 +9,7 @@
     <color name='background'>#F2F2F2</color>
     <color name='trans'>#00FFFFFF</color>
     <color name="danger">#B00020</color>
-    <color name="disabled">#55555555</color>
+    <color name="gray">#FF606060</color>
     <color name="muted">#88606060</color>
+    <color name="disabled">#55555555</color>
 </resources>

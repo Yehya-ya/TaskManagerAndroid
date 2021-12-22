@@ -44,11 +44,7 @@ public class ProjectCollectionViewModel extends AndroidViewModel {
                 List<Project> projectList = new LinkedList<>();
                 for (int i = 0; i < data.length(); i++) {
                     JSONObject projectObject = data.getJSONObject(i);
-                    Project tempProject = new Project(
-                            projectObject.getInt("id"),
-                            projectObject.getString("title"),
-                            projectObject.isNull("description") ? null : projectObject.getString("description")
-                    );
+                    Project tempProject = new Project(projectObject);
                     tempProject.setOwnerId(projectObject.getInt("user_id"));
                     projectList.add(tempProject);
                 }
@@ -69,16 +65,14 @@ public class ProjectCollectionViewModel extends AndroidViewModel {
         request.setMethod(Request.Method.POST);
         request.setUrl(Route.getProjectsCreateRoute());
         request.addAuthorizationHeader(AccountUtils.getAccessToken());
-        if (title != null)
-            request.addParam("title", title);
-        if (description != null)
-            request.addParam("description", description);
+        request.addParam("title", title);
+        request.addParam("description", description);
 
 
         request.setResponse(response -> {
             try {
                 JSONObject data = new JSONObject(response).getJSONObject("data");
-                Project project = new Project(data.getInt("id"), title, description);
+                Project project = new Project(data);
                 project.setOwnerId(data.getInt("user_id"));
                 mProjects.getValue().add(project);
                 mProjects.setValue(mProjects.getValue());
@@ -111,16 +105,15 @@ public class ProjectCollectionViewModel extends AndroidViewModel {
         request.setMethod(Request.Method.PUT);
         request.setUrl(Route.getProjectsUpdateRoute(project.getId()));
         request.addAuthorizationHeader(AccountUtils.getAccessToken());
-        if (title != null)
-            request.addParam("title", title);
-        if (description != null)
-            request.addParam("description", description);
+        request.addParam("title", title);
+        request.addParam("description", description);
 
         request.setResponse(response -> {
             try {
                 JSONObject data = new JSONObject(response).getJSONObject("data");
                 project.setTitle(title);
                 project.setDescription(description);
+                project.setUpdated_at(data.getString("updated_at"));
                 mProjects.setValue(mProjects.getValue());
                 listener.action(true);
             } catch (JSONException e) {

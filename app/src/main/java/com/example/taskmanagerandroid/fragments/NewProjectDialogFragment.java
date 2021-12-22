@@ -45,7 +45,7 @@ public class NewProjectDialogFragment extends DialogFragment {
     }
 
     public String getDescription() {
-        return mDescription.getText().toString().equals("") ? null : mDescription.getText().toString();
+        return mDescription.getText().toString();
     }
 
     public void setActionListener(ActionListener listener) {

@@ -6,44 +6,45 @@
     android:padding="10dp"
     tools:context=".fragments.NewTaskDialogFragment">
 
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/title"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/outlineButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:hint="Name"
+        android:layout_marginHorizontal="10dp"
+        android:hint="Title"
         android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        android:minHeight="48dp">
+        android:inputType="textCapWords">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editProjectFragment_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textImeMultiLine"
-            android:textSize="14dp" />
+            android:inputType="textCapWords"
+            tools:text="@tools:sample/lorem" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/description"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/outlineButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/title"
-        android:layout_margin="5dp"
-        android:hint="description"
+        android:layout_marginHorizontal="10dp"
+        android:hint="Description"
         android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        android:minHeight="48dp">
+        android:inputType="text|textMultiLine">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editProjectFragment_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textImeMultiLine"
-            android:textSize="14dp" />
+            android:inputType="text|textMultiLine"
+            android:maxLines="5"
+            android:minLines="2"
+            android:textSize="14sp"
+            tools:text="@tools:sample/lorem/random" />
     </com.google.android.material.textfield.TextInputLayout>
+
 
 </RelativeLayout>

@@ -28,11 +28,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
-                    android:text="title"
-                    android:textSize="24sp"
+                    android:textColor="@color/black"
+                    android:textSize="26sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Title" />
 
                 <ImageView
                     android:id="@+id/menu"
@@ -42,9 +43,9 @@
                     android:clickable="true"
                     android:focusable="true"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/black" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/task_recycler"
@@ -52,10 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/rounded_corner"
-                android:padding="5dp">
-
-            </androidx.recyclerview.widget.RecyclerView>
+                tools:listitem="@layout/task_card" />
         </LinearLayout>
-
     </com.google.android.material.card.MaterialCardView>
 </FrameLayout>
