@@ -2,6 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/confirm_delete"
+        android:background="?attr/selectableItemBackground"
+        android:icon="@drawable/ic_delete"
+        android:orderInCategory="100"
+        android:title="Delete"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/confirm_edit"
         android:background="?attr/selectableItemBackground"
         android:icon="@drawable/ic_round_check_24"

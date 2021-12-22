@@ -95,6 +95,24 @@ public class TaskViewModel extends AndroidViewModel {
         MyRequestQueue.getInstance(getApplication()).addToRequestQueue(request);
     }
 
+    public void deleteTask(ActionListener listener) {
+        MyRequest request = new MyRequest();
+        request.setMethod(Request.Method.DELETE);
+        request.setUrl(Route.getTasksDeleteRoute(mProjectId, mTaskId));
+        request.addAuthorizationHeader(AccountUtils.getAccessToken());
+
+        request.setResponse(response -> {
+            listener.action(true);
+        });
+        request.setErrorHandler(new MyRequest.ErrorHandler() {
+            @Override
+            public void action() {
+                listener.action(false);
+            }
+        });
+        MyRequestQueue.getInstance(getApplication()).addToRequestQueue(request);
+    }
+
     public static class Factory extends ViewModelProvider.NewInstanceFactory {
         @NonNull
         private final Application mApplication;
