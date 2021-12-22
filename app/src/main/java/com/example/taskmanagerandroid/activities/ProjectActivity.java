@@ -18,6 +18,8 @@ import com.example.taskmanagerandroid.viewmodels.ProjectViewModel;
 
 
 public class ProjectActivity extends AbstractActivity {
+    public static final int RESULT_TASK_UPDATED = 102;
+    public static final int RESULT_TASK_DELETED = 102;
     private static final String TAG = "ProjectActivity";
 
     private ActivityResultLauncher<Intent> launchSomeActivity;
@@ -52,8 +54,13 @@ public class ProjectActivity extends AbstractActivity {
         launchSomeActivity = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
-                    if (result.getResultCode() == RESULT_OK) {
+                    if (result.getResultCode() == RESULT_TASK_UPDATED) {
                         Toast.makeText(this, "the task has been updated successfully.", Toast.LENGTH_SHORT).show();
+                        mAdapter.reloadCategoryViewModel();
+                    }
+
+                    if (result.getResultCode() == RESULT_TASK_DELETED) {
+                        Toast.makeText(this, "the task has been deleted successfully.", Toast.LENGTH_SHORT).show();
                         mAdapter.reloadCategoryViewModel();
                     }
                 }

@@ -199,7 +199,19 @@ public class TaskActivity extends AppCompatActivity {
                         mTask.getCategoryId(),
                         success -> {
                             if (success) {
-                                setResult(RESULT_OK);
+                                setResult(ProjectActivity.RESULT_TASK_UPDATED);
+                                finish();
+                                return;
+                            }
+                            Toast.makeText(this, "the given data is invalid.", Toast.LENGTH_SHORT).show();
+                        }
+                );
+                break;
+            case R.id.confirm_delete:
+                mTaskViewModel.deleteTask(
+                        success -> {
+                            if (success) {
+                                setResult(ProjectActivity.RESULT_TASK_DELETED);
                                 finish();
                                 return;
                             }
