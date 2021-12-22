@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.LinkedList;
+import java.util.Objects;
 
 public class Project {
     private final int id;
@@ -14,17 +15,13 @@ public class Project {
     private LinkedList<User> members;
     private LinkedList<Task> tasks;
     private LinkedList<Category> categories;
-
-    public Project(int id, String title, String description) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-    }
+    private String updated_at;
 
     public Project(JSONObject projectObject) throws JSONException {
         this.id = projectObject.getInt("id");
         this.title = projectObject.getString("title");
         this.description = projectObject.isNull("description") ? null : projectObject.getString("description");
+        this.updated_at = projectObject.getString("updated_at");
     }
 
     public int getId() {
@@ -49,6 +46,10 @@ public class Project {
 
     public int getOwnerId() {
         return owner_id;
+    }
+
+    public void setUpdated_at(String updated_at) {
+        this.updated_at = updated_at;
     }
 
     public void setOwnerId(int owner_id) {
@@ -95,5 +96,18 @@ public class Project {
             categories = new LinkedList<>();
         }
         categories.add(category);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Project)) return false;
+        Project project = (Project) o;
+        return id == project.id && updated_at.equals(project.updated_at);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, updated_at);
     }
 }

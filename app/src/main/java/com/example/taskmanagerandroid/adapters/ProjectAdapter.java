@@ -16,15 +16,16 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.taskmanagerandroid.R;
+import com.example.taskmanagerandroid.activities.ProjectActivity;
 import com.example.taskmanagerandroid.fragments.EditProjectDialogFragment;
 import com.example.taskmanagerandroid.models.Project;
-import com.example.taskmanagerandroid.projects.ProjectActivity;
 import com.example.taskmanagerandroid.utils.ActionListener;
 import com.example.taskmanagerandroid.viewmodels.ProjectCollectionViewModel;
 
@@ -88,6 +89,11 @@ public class ProjectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             Project project = mProjects.get(position);
             ((ProjectViewHolder) holder).title.setText(project.getTitle());
             ((ProjectViewHolder) holder).description.setText(project.getDescription());
+            if (project.getDescription() == null) {
+                ((ProjectViewHolder) holder).description.setVisibility(View.GONE);
+            } else {
+                ((ProjectViewHolder) holder).description.setVisibility(View.VISIBLE);
+            }
             ((ProjectViewHolder) holder).project = project;
             ((ProjectViewHolder) holder).menu.setOnClickListener(view -> {
                 showMenu(view, position);
@@ -149,6 +155,11 @@ public class ProjectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     @Override
+    public long getItemId(int position) {
+        return mProjects.size() == 0 ? super.getItemId(position) : mProjects.get(position).hashCode();
+    }
+
+    @Override
     public int getItemViewType(int position) {
         if (mProjects.size() == 0) {
             return EMPTY_LAYOUT;
@@ -159,6 +170,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     static class ProjectViewHolder extends RecyclerView.ViewHolder {
 
         private final Context mContext;
+        CardView card;
         TextView title;
         TextView description;
         ImageView menu;
@@ -169,9 +181,10 @@ public class ProjectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             title = itemView.findViewById(R.id.project_title);
             description = itemView.findViewById(R.id.project_description);
             menu = itemView.findViewById(R.id.menu);
+            card = itemView.findViewById(R.id.project_card);
             mContext = context;
 
-            itemView.setOnClickListener(view -> {
+            card.setOnClickListener(view -> {
                 if (project == null) {
                     Log.e(TAG, "unknown project");
                     return;

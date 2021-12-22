@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/tst_ic"
+        android:width="14dp"
+        android:height="14dp"
+        android:drawable="@drawable/ic_baseline_description_24" />
+</layer-list>

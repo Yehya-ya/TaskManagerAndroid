@@ -13,7 +13,8 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->color/purple_200
+        <!-- Customize your theme here. -->
+        <item name="colorControlNormal">@color/white</item>
     </style>
 
     <style name="Theme.TaskManagerAndroidNoActionbar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
@@ -30,5 +31,19 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="colorControlNormal">@color/white</item>
+    </style>
+
+    <style name="outlineButton" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/primary_dark</item>
+        <item name="boxStrokeErrorColor">@color/danger</item>
+        <item name="boxCornerRadiusBottomStart">10dp</item>
+        <item name="boxCornerRadiusBottomEnd">10dp</item>
+        <item name="boxCornerRadiusTopStart">10dp</item>
+        <item name="boxCornerRadiusTopEnd">10dp</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="boxStrokeWidthFocused">2dp</item>
+        <item name="startIconTint">@color/primary_dark</item>
+        <item name="errorEnabled">true</item>
     </style>
 </resources>

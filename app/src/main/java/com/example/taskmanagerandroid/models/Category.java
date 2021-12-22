@@ -3,26 +3,21 @@ package com.example.taskmanagerandroid.models;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.LinkedList;
+import java.util.Objects;
 
 public class Category {
     private final int id;
     private String title;
     private String description;
-    private LinkedList<Task> tasks;
     private Project project;
     private int project_id;
-
-    public Category(int id, String title, String description) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-    }
+    private String updated_at;
 
     public Category(JSONObject categoryObject) throws JSONException {
         this.id = categoryObject.getInt("id");
         this.title = categoryObject.getString("title");
         this.description = categoryObject.isNull("description") ? null : categoryObject.getString("description");
+        this.updated_at = categoryObject.getString("updated_at");
     }
 
     public int getId() {
@@ -45,16 +40,16 @@ public class Category {
         this.description = description;
     }
 
+    public void setUpdated_at(String updated_at) {
+        this.updated_at = updated_at;
+    }
+
     public int getProjectId() {
         return project_id;
     }
 
     public void setProjectId(int project_id) {
         this.project_id = project_id;
-    }
-
-    public LinkedList<Task> getTasks() {
-        return tasks;
     }
 
     public Project getProject() {
@@ -66,10 +61,16 @@ public class Category {
         this.project_id = project.getId();
     }
 
-    public void addTask(Task task) {
-        if (this.tasks == null) {
-            this.tasks = new LinkedList<>();
-        }
-        this.tasks.add(task);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Category)) return false;
+        Category category = (Category) o;
+        return id == category.id && updated_at.equals(category.updated_at);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, updated_at);
     }
 }

@@ -19,10 +19,9 @@ public class AccountUtils {
         MyRequest request = new MyRequest();
         request.setMethod(Request.Method.POST);
         request.setUrl(Route.getLoginRoute());
-        if (email != null)
-            request.addParam("email", email);
-        if (password != null)
-            request.addParam("password", password);
+
+        request.addParam("email", email);
+        request.addParam("password", password);
 
         request.setResponse(response -> {
             try {
@@ -59,14 +58,11 @@ public class AccountUtils {
         MyRequest request = new MyRequest();
         request.setMethod(Request.Method.POST);
         request.setUrl(Route.getRegisterRoute());
-        if (name != null)
-            request.addParam("name", name);
-        if (email != null)
-            request.addParam("email", email);
-        if (password != null)
-            request.addParam("password", password);
-        if (passwordConfirmation != null)
-            request.addParam("password_confirmation", passwordConfirmation);
+
+        request.addParam("name", name);
+        request.addParam("email", email);
+        request.addParam("password", password);
+        request.addParam("password_confirmation", passwordConfirmation);
 
         request.setResponse(response -> {
             try {
@@ -94,7 +90,6 @@ public class AccountUtils {
             @Override
             public void action() {
                 errorHandler.action();
-                listener.action(false);
             }
         });
         MyRequestQueue.getInstance(application).addToRequestQueue(request);

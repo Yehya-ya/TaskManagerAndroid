@@ -1,4 +1,4 @@
-package com.example.taskmanagerandroid;
+package com.example.taskmanagerandroid.activities;
 
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -13,9 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.taskmanagerandroid.R;
+import com.example.taskmanagerandroid.activities.authentication.LoginActivity;
 import com.example.taskmanagerandroid.utils.AccountUtils;
 import com.github.ivbaranov.mli.MaterialLetterIcon;
-import com.google.android.material.card.MaterialCardView;
 
 public abstract class AbstractActivity extends AppCompatActivity {
 
@@ -50,7 +51,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
                 ((TextView) view.findViewById(R.id.userName)).setText(AccountUtils.getUser().getName());
                 ((TextView) view.findViewById(R.id.userEmail)).setText(AccountUtils.getUser().getEmail());
 
-                ((MaterialCardView) view.findViewById(R.id.popup_logout)).setOnClickListener(view1 -> {
+                (view.findViewById(R.id.popup_logout)).setOnClickListener(view1 -> {
                     AlertDialog.Builder builder = new AlertDialog.Builder(AbstractActivity.this);
                     builder.setTitle("Logout")
                             .setMessage("Are you sure you want to logout?")

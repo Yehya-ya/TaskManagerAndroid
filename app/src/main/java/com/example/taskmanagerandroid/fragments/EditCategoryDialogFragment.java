@@ -18,7 +18,6 @@ import com.example.taskmanagerandroid.utils.ActionListener;
 public class EditCategoryDialogFragment extends DialogFragment {
     private final Category mCategory;
     private EditText mTitle;
-    private EditText mDescription;
     private ActionListener listener;
 
     public EditCategoryDialogFragment(Category category) {
@@ -32,9 +31,8 @@ public class EditCategoryDialogFragment extends DialogFragment {
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.fragment_new_project_dialog, null);
         this.mTitle = view.findViewById(R.id.editProjectFragment_title);
-        this.mDescription = view.findViewById(R.id.editProjectFragment_description);
         this.mTitle.setText(mCategory.getTitle());
-        this.mDescription.setText(mCategory.getDescription());
+        view.findViewById(R.id.description).setVisibility(View.GONE);
 
         builder.setView(view)
                 .setTitle("Edit The Category")
@@ -53,7 +51,7 @@ public class EditCategoryDialogFragment extends DialogFragment {
     }
 
     public String getDescription() {
-        return mDescription.getText().toString().equals("") ? null : mDescription.getText().toString();
+        return null;
     }
 
     public void setActionListener(ActionListener listener) {

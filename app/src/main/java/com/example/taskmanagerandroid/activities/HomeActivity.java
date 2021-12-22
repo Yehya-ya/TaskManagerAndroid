@@ -1,4 +1,4 @@
-package com.example.taskmanagerandroid.projects;
+package com.example.taskmanagerandroid.activities;
 
 import android.os.Bundle;
 import android.widget.Toast;
@@ -6,16 +6,12 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.taskmanagerandroid.AbstractActivity;
 import com.example.taskmanagerandroid.R;
 import com.example.taskmanagerandroid.adapters.ProjectAdapter;
 import com.example.taskmanagerandroid.fragments.NewProjectDialogFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class ProjectAllActivity extends AbstractActivity {
-
-    private static final String TAG = "ProjectAllActivity";
-
+public class HomeActivity extends AbstractActivity {
     private RecyclerView projectsView;
     private ProjectAdapter projectAdapter;
     private FloatingActionButton button;
@@ -23,7 +19,9 @@ public class ProjectAllActivity extends AbstractActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_project_all);
+        setContentView(R.layout.activity_home);
+
+        getSupportActionBar().setTitle(getString(R.string.app_name));
 
         projectsView = findViewById(R.id.projectRecycler);
         projectAdapter = new ProjectAdapter(this);

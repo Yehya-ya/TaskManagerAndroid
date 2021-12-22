@@ -50,11 +50,7 @@ public class CategoryCollectionViewModel extends AndroidViewModel {
                 List<Category> categoryList = new LinkedList<>();
                 for (int i = 0; i < data.length(); i++) {
                     JSONObject categoryObject = data.getJSONObject(i);
-                    Category tempCategory = new Category(
-                            categoryObject.getInt("id"),
-                            categoryObject.getString("title"),
-                            categoryObject.isNull("description") ? null : categoryObject.getString("description")
-                    );
+                    Category tempCategory = new Category(categoryObject);
                     tempCategory.setProjectId(mProjectId);
                     categoryList.add(tempCategory);
                 }
@@ -83,11 +79,7 @@ public class CategoryCollectionViewModel extends AndroidViewModel {
         request.setResponse(response -> {
             try {
                 JSONObject data = new JSONObject(response).getJSONObject("data");
-                Category category = new Category(
-                        data.getInt("id"),
-                        data.getString("title"),
-                        data.isNull("description") ? null : data.getString("description")
-                );
+                Category category = new Category(data);
                 category.setProjectId(mProjectId);
                 mCategories.getValue().add(category);
                 mCategories.setValue(mCategories.getValue());
@@ -120,16 +112,16 @@ public class CategoryCollectionViewModel extends AndroidViewModel {
         request.setMethod(Request.Method.PUT);
         request.setUrl(Route.getCategoriesUpdateRoute(mProjectId, category.getId()));
         request.addAuthorizationHeader(AccountUtils.getAccessToken());
-        if (title != null)
-            request.addParam("title", title);
-        if (description != null)
-            request.addParam("description", description);
+
+        request.addParam("title", title);
+        request.addParam("description", description);
 
         request.setResponse(response -> {
             try {
                 JSONObject data = new JSONObject(response).getJSONObject("data");
                 category.setTitle(data.getString("title"));
                 category.setDescription(data.has("description") ? data.getString("description") : null);
+                category.setUpdated_at(data.getString("updated_at"));
                 mCategories.setValue(mCategories.getValue());
                 listener.action(true);
             } catch (JSONException e) {

@@ -27,12 +27,16 @@ import com.example.taskmanagerandroid.viewmodels.TaskCollectionViewModel;
 public class CategoryFragment extends Fragment {
     private final CategoryCollectionAdapter mCategoryAdapter;
     private final Category mCategory;
+    private final int mNextCategory;
+    private final int mPreviousCategory;
     private TaskCollectionViewModel mTaskModel;
     private TaskViewAdapter mTaskViewAdapter;
 
     public CategoryFragment(CategoryCollectionAdapter adapter, int position) {
         this.mCategoryAdapter = adapter;
         this.mCategory = mCategoryAdapter.getCategory(position);
+        this.mNextCategory = mCategoryAdapter.getCategory(position + 1) == null ? 0 : mCategoryAdapter.getCategory(position + 1).getId();
+        this.mPreviousCategory = mCategoryAdapter.getCategory(position - 1) == null ? 0 : mCategoryAdapter.getCategory(position - 1).getId();
     }
 
     @Override
@@ -47,17 +51,22 @@ public class CategoryFragment extends Fragment {
                 )
         ).get(TaskCollectionViewModel.class);
 
-        this.mTaskViewAdapter = new TaskViewAdapter(getActivity(), success -> {
-            NewTaskDialogFragment dialogFragment = new NewTaskDialogFragment();
-            dialogFragment.setActionListener(success1 -> {
-                mTaskModel.createTask(dialogFragment.getTitle(), dialogFragment.getDescription(), dialogFragment.getDate(), success2 -> {
-                    if (success2) {
-                        Toast.makeText(getActivity(), "Task has been created successfully.", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            });
-            dialogFragment.show(getParentFragmentManager(), "newTask");
-        });
+        this.mTaskViewAdapter = new TaskViewAdapter(
+                this,
+                success -> {
+                    NewTaskDialogFragment dialogFragment = new NewTaskDialogFragment();
+                    dialogFragment.setActionListener(success1 -> {
+                        mTaskModel.createTask(dialogFragment.getTitle(), dialogFragment.getDescription(), dialogFragment.getDate(), success2 -> {
+                            if (success2) {
+                                Toast.makeText(getActivity(), "Task has been created successfully.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    });
+                    dialogFragment.show(getParentFragmentManager(), "newTask");
+                },
+                mPreviousCategory != 0,
+                mNextCategory != 0
+        );
 
         mTaskModel.getTasks().observe(getActivity(), tasks -> {
             mTaskViewAdapter.setTasks(tasks);
@@ -100,7 +109,7 @@ public class CategoryFragment extends Fragment {
                     EditCategoryDialogFragment fragment = new EditCategoryDialogFragment(mCategory);
                     fragment.setActionListener(success -> {
                         if (success) {
-                            mCategoryAdapter.editCategory(mCategoryAdapter.getPosition((long) mCategory.hashCode()), fragment.getTitle(), fragment.getDescription(), success1 -> {
+                            mCategoryAdapter.editCategory(mCategoryAdapter.getPosition(mCategory), fragment.getTitle(), fragment.getDescription(), success1 -> {
                                 Toast.makeText(getActivity(), "Category has been updated successfully.", Toast.LENGTH_SHORT).show();
                             });
                         }
@@ -112,7 +121,7 @@ public class CategoryFragment extends Fragment {
                     builder.setTitle("Alert!!!")
                             .setMessage("Are you sure you want to delete this category?")
                             .setPositiveButton("yes", (dialogInterface, i) -> {
-                                mCategoryAdapter.deleteCategory(mCategoryAdapter.getPosition((long) mCategory.hashCode()), success -> {
+                                mCategoryAdapter.deleteCategory(mCategoryAdapter.getPosition(mCategory), success -> {
                                     Toast.makeText(getActivity(), "Category has been deleted successfully.", Toast.LENGTH_SHORT).show();
                                 });
                             })
@@ -130,5 +139,11 @@ public class CategoryFragment extends Fragment {
 
         });
         popupMenu.show();
+    }
+
+    public void moveTask(int position, boolean isNext) {
+        mTaskModel.moveTask(position, isNext ? mNextCategory : mPreviousCategory, success -> {
+            mCategoryAdapter.reloadCategoryViewModel();
+        });
     }
 }

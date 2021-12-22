@@ -58,7 +58,7 @@ public class MyRequest {
     }
 
     public void addParam(String key, String value) {
-        this.params.put(key, value);
+        this.params.put(key, value == null ? "" : value);
     }
 
     public StringRequest getRequest() throws Exception {
@@ -108,7 +108,6 @@ public class MyRequest {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 return MyRequest.this.params;
-
             }
         };
     }
@@ -118,6 +117,7 @@ public class MyRequest {
             Log.e(TAG, "no response. check network connectivity");
             return true;
         }
+
         final int statusCode = error.networkResponse.statusCode;
         if (500 <= statusCode) {
             Log.e(TAG, "could not connect to server.");
@@ -138,13 +138,10 @@ public class MyRequest {
         default void handlingMessage(String massage) {
             Log.e(TAG, massage);
         }
-
         default void handlingErrors(JSONObject errors) {
             Log.e(TAG, errors.toString());
         }
-
         default void action() {
-
         }
     }
 }
