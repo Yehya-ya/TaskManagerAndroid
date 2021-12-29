@@ -10,7 +10,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,37 +31,36 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText mPassword;
     private EditText mConfirmPassword;
 
-    private TextInputLayout mNameView;
-    private TextInputLayout mEmailView;
-    private TextInputLayout mPasswordView;
-    private TextInputLayout mConfirmPasswordView;
+    private TextInputLayout mNameInputLayout;
+    private TextInputLayout mEmailInputLayout;
+    private TextInputLayout mPasswordInputLayout;
+    private TextInputLayout mConfirmPasswordInputLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        this.mNameView = findViewById(R.id.textViewUsername);
-        this.mEmailView = findViewById(R.id.textViewEmail);
-        this.mPasswordView = findViewById(R.id.textViewPassword);
-        this.mConfirmPasswordView = findViewById(R.id.textViewPasswordConfirmation);
+        this.mNameInputLayout = findViewById(R.id.inputLayoutName);
+        this.mEmailInputLayout = findViewById(R.id.inputLayoutEmail);
+        this.mPasswordInputLayout = findViewById(R.id.inputLayoutPassword);
+        this.mConfirmPasswordInputLayout = findViewById(R.id.inputLayoutPasswordConfirmation);
 
         this.mName = findViewById(R.id.editTextUsername);
         this.mEmail = findViewById(R.id.editTextEmailAddress);
         this.mPassword = findViewById(R.id.editTextPassword);
         this.mConfirmPassword = findViewById(R.id.editTextPasswordConfirmation);
 
-        setupInputTextLayout(new TextInputLayout[]{this.mNameView}, mName);
-        setupInputTextLayout(new TextInputLayout[]{this.mEmailView}, mEmail);
-        setupInputTextLayout(new TextInputLayout[]{this.mPasswordView, this.mConfirmPasswordView}, mPassword);
-        setupInputTextLayout(new TextInputLayout[]{this.mPasswordView, this.mConfirmPasswordView}, mConfirmPassword);
+        setupInputTextLayout(new TextInputLayout[]{this.mNameInputLayout}, mName);
+        setupInputTextLayout(new TextInputLayout[]{this.mEmailInputLayout}, mEmail);
+        setupInputTextLayout(new TextInputLayout[]{this.mPasswordInputLayout, this.mConfirmPasswordInputLayout}, mPassword);
+        setupInputTextLayout(new TextInputLayout[]{this.mPasswordInputLayout, this.mConfirmPasswordInputLayout}, mConfirmPassword);
 
-        TextView haveAccount = findViewById(R.id.haveAccount);
-
-        haveAccount.setOnClickListener(view -> {
+        (findViewById(R.id.haveAccount)).setOnClickListener(view -> {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         });
+
         mName.requestFocus();
     }
 
@@ -113,7 +111,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 for (int i = 0; i < array.length(); i++) {
                                     error += "* " + array.getString(i) + "\n";
                                 }
-                                mNameView.setError(error);
+                                mNameInputLayout.setError(error);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -125,7 +123,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 for (int i = 0; i < array.length(); i++) {
                                     error += "* " + array.getString(i) + "\n";
                                 }
-                                mEmailView.setError(error);
+                                mEmailInputLayout.setError(error);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -137,8 +135,8 @@ public class RegisterActivity extends AppCompatActivity {
                                 for (int i = 0; i < array.length(); i++) {
                                     error += "* " + array.getString(i) + "\n";
                                 }
-                                mPasswordView.setError(error);
-                                mConfirmPasswordView.setError(" ");
+                                mPasswordInputLayout.setError(error);
+                                mConfirmPasswordInputLayout.setError(" ");
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

@@ -17,19 +17,21 @@ import java.util.Map;
 
 public class MyRequest {
     private static final String TAG = "MyRequest";
-    private final Map<String, String> additionalHeaders;
-    private final Map<String, String> params;
 
+    private final Map<String, String> headers;
     private int method;
+    private final Map<String, String> params;
     private String url;
     private Response.Listener<String> response;
     private ErrorHandler errorHandler;
 
     public MyRequest() {
         this.method = Request.Method.GET;
-        this.additionalHeaders = new HashMap<>();
+        this.headers = new HashMap<>();
+        this.headers.put("Connection", "keep-alive");
+        this.headers.put("Accept", "application/json");
         this.params = new HashMap<>();
-        errorHandler = new ErrorHandler() {
+        this.errorHandler = new ErrorHandler() {
         };
     }
 
@@ -41,24 +43,24 @@ public class MyRequest {
         this.url = url;
     }
 
+    public void addHeader(String key, String value) {
+        this.headers.put(key, value);
+    }
+
+    public void addAuthorizationHeader(String token) {
+        this.addHeader("Authorization", "Bearer " + token);
+    }
+
+    public void addParam(String key, String value) {
+        this.params.put(key, value == null ? "" : value);
+    }
+
     public void setResponse(Response.Listener<String> response) {
         this.response = response;
     }
 
     public void setErrorHandler(ErrorHandler errorHandler) {
         this.errorHandler = errorHandler;
-    }
-
-    public void addHeader(String key, String value) {
-        this.additionalHeaders.put(key, value);
-    }
-
-    public void addAuthorizationHeader(String token) {
-        this.additionalHeaders.put("Authorization", "Bearer " + token);
-    }
-
-    public void addParam(String key, String value) {
-        this.params.put(key, value == null ? "" : value);
     }
 
     public StringRequest getRequest() throws Exception {
@@ -97,12 +99,7 @@ public class MyRequest {
         ) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-
-                headers.put("Connection", "keep-alive");
-                headers.put("Accept", "application/json");
-                headers.putAll(MyRequest.this.additionalHeaders);
-                return headers;
+                return MyRequest.this.headers;
             }
 
             @Override

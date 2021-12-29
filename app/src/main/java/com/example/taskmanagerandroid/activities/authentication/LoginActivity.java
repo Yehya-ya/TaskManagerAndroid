@@ -8,7 +8,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,15 +35,13 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        this.mEmailLayout = findViewById(R.id.textViewEmail);
-        this.mPasswordLayout = findViewById(R.id.textViewPassword);
+        this.mEmailLayout = findViewById(R.id.inputLayoutEmail);
+        this.mPasswordLayout = findViewById(R.id.inputLayoutPassword);
 
         this.mEmail = findViewById(R.id.editTextEmailAddress);
         this.mPassword = findViewById(R.id.editTextPassword);
 
-        TextView createNewAccount = findViewById(R.id.createNewAccount);
-
-        createNewAccount.setOnClickListener(view -> {
+        findViewById(R.id.createNewAccount).setOnClickListener(view -> {
             startActivity(new Intent(this, RegisterActivity.class));
             finish();
         });

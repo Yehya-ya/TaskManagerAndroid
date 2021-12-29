@@ -105,8 +105,7 @@ public class AccountUtils {
         MyRequest verifyRequest = new MyRequest();
         verifyRequest.setMethod(Request.Method.POST);
         verifyRequest.setUrl(Route.getTokenVerifyRoute());
-        if (access_token != null)
-            verifyRequest.addAuthorizationHeader(access_token);
+        verifyRequest.addAuthorizationHeader(access_token);
 
         verifyRequest.setResponse(response -> {
             try {

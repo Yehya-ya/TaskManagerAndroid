@@ -10,6 +10,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="200dp"
+        android:contentDescription="Logo"
         app:srcCompat="@drawable/logo_04" />
 
     <ScrollView
@@ -38,7 +39,7 @@
                 android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textViewEmail"
+                android:id="@+id/inputLayoutEmail"
                 style="@style/outlineButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -55,7 +56,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textViewPassword"
+                android:id="@+id/inputLayoutPassword"
                 style="@style/outlineButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
