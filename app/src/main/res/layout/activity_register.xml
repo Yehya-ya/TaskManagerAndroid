@@ -34,9 +34,8 @@
             android:paddingHorizontal="50dp"
             android:paddingVertical="20dp">
 
-
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textViewUsername"
+                android:id="@+id/inputLayoutName"
                 style="@style/outlineButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -54,7 +53,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textViewEmail"
+                android:id="@+id/inputLayoutEmail"
                 style="@style/outlineButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -71,7 +70,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textViewPassword"
+                android:id="@+id/inputLayoutPassword"
                 style="@style/outlineButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -92,7 +91,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textViewPasswordConfirmation"
+                android:id="@+id/inputLayoutPasswordConfirmation"
                 style="@style/outlineButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
