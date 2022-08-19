@@ -1,6 +1,9 @@
 package com.example.taskmanagerandroid.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,11 +15,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.taskmanagerandroid.R;
 import com.example.taskmanagerandroid.activities.authentication.LoginActivity;
 import com.example.taskmanagerandroid.utils.AccountUtils;
 import com.github.ivbaranov.mli.MaterialLetterIcon;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 public abstract class AbstractActivity extends AppCompatActivity {
 
@@ -51,6 +56,26 @@ public abstract class AbstractActivity extends AppCompatActivity {
                 ((TextView) view.findViewById(R.id.userName)).setText(AccountUtils.getUser().getName());
                 ((TextView) view.findViewById(R.id.userEmail)).setText(AccountUtils.getUser().getEmail());
 
+                int currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+
+                boolean isNightMode = currentNightMode == Configuration.UI_MODE_NIGHT_YES;
+
+                SwitchMaterial switchMaterial = view.findViewById(R.id.popup_switch);
+                switchMaterial.setChecked(isNightMode);
+                switchMaterial.setOnClickListener(view1 -> {
+                    popupWindow.dismiss();
+                    SharedPreferences.Editor editor = getApplication().getSharedPreferences("AppSettings", Context.MODE_PRIVATE).edit();
+                    if (switchMaterial.isChecked()) {
+                        editor.putInt("mode", AppCompatDelegate.MODE_NIGHT_YES);
+                        editor.apply();
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    } else {
+                        editor.putInt("mode", AppCompatDelegate.MODE_NIGHT_NO);
+                        editor.apply();
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    }
+                });
+
                 (view.findViewById(R.id.popup_logout)).setOnClickListener(view1 -> {
                     AlertDialog.Builder builder = new AlertDialog.Builder(AbstractActivity.this);
                     builder.setTitle("Logout")
@@ -78,5 +103,13 @@ public abstract class AbstractActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void recreate() {
+        finish();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        startActivity(getIntent());
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 }

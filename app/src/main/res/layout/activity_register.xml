@@ -42,6 +42,9 @@
                 android:layout_marginTop="10dp"
                 android:hint="Name"
                 android:importantForAutofill="no"
+                android:textColorHint="@color/primary_dark"
+                app:boxStrokeColor="@color/primary_dark"
+                app:startIconTint="@color/primary_dark"
                 app:startIconDrawable="@drawable/ic_baseline_account_circle_24">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -60,6 +63,9 @@
                 android:hint="Email"
                 android:importantForAutofill="no"
                 android:inputType="textEmailAddress"
+                android:textColorHint="@color/primary_dark"
+                app:boxStrokeColor="@color/primary_dark"
+                app:startIconTint="@color/primary_dark"
                 app:startIconDrawable="@drawable/ic_baseline_email_24">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -81,6 +87,9 @@
                 app:endIconDrawable="@drawable/ic_baseline_remove_red_eye_24"
                 app:endIconMode="password_toggle"
                 app:endIconTint="@color/primary_dark"
+                android:textColorHint="@color/primary_dark"
+                app:boxStrokeColor="@color/primary_dark"
+                app:startIconTint="@color/primary_dark"
                 app:startIconDrawable="@drawable/ic_baseline_key_24">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -102,6 +111,9 @@
                 app:endIconDrawable="@drawable/ic_baseline_remove_red_eye_24"
                 app:endIconMode="password_toggle"
                 app:endIconTint="@color/primary_dark"
+                android:textColorHint="@color/primary_dark"
+                app:boxStrokeColor="@color/primary_dark"
+                app:startIconTint="@color/primary_dark"
                 app:startIconDrawable="@drawable/ic_baseline_key_24">
 
                 <com.google.android.material.textfield.TextInputEditText

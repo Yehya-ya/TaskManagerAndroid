@@ -9,8 +9,11 @@
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/secondary</item>
-        <item name="colorSecondaryVariant">@color/secondary_dark</item>
         <item name="colorOnSecondary">@color/black</item>
+        <!-- Background -->
+        <item name="background">@color/white</item>
+        <item name="backgroundColor">@color/white_pure</item>
+        <item name="colorOnBackground">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
@@ -26,8 +29,11 @@
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/secondary</item>
-        <item name="colorSecondaryVariant">@color/secondary_dark</item>
         <item name="colorOnSecondary">@color/black</item>
+        <!-- Background -->
+        <item name="background">@color/white</item>
+        <item name="backgroundColor">@color/white_pure</item>
+        <item name="colorOnBackground">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
@@ -35,6 +41,8 @@
     </style>
 
     <style name="outlineButton" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:textColorHint">@color/primary_dark</item>
+        <item name="android:textColor">@color/primary_dark</item>
         <item name="boxStrokeColor">@color/primary_dark</item>
         <item name="boxStrokeErrorColor">@color/danger</item>
         <item name="boxCornerRadiusBottomStart">10dp</item>

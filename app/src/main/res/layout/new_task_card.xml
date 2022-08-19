@@ -7,10 +7,11 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/trans"
         android:elevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:background="?attr/background"
+        android:backgroundTint="?attr/background"
         app:layout_constraintTop_toTopOf="parent">
 
         <Button

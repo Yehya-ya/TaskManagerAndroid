@@ -2,7 +2,6 @@ package com.example.taskmanagerandroid.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,7 +89,7 @@ public class TaskViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             } else {
                 taskViewHolder.next.setClickable(false);
                 taskViewHolder.next.setFocusable(false);
-                taskViewHolder.next.setImageTintList(ColorStateList.valueOf(mCategoryFragment.getContext().getColor(R.color.disabled)));
+                taskViewHolder.next.setAlpha(0.5f);
             }
             if (mHasPrevious) {
                 taskViewHolder.previous.setOnClickListener(view -> {
@@ -99,7 +98,7 @@ public class TaskViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             } else {
                 taskViewHolder.previous.setClickable(false);
                 taskViewHolder.previous.setFocusable(false);
-                taskViewHolder.previous.setImageTintList(ColorStateList.valueOf(mCategoryFragment.getContext().getColor(R.color.disabled)));
+                taskViewHolder.previous.setAlpha(0.5f);
             }
             ((TaskViewHolder) holder).taskCard.setOnClickListener(view -> {
                 Intent intent = new Intent(mCategoryFragment.getContext(), TaskActivity.class);
