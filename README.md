@@ -1,14 +1,14 @@
 # TaskManagerAndroid
 ## login and register
-![title](/screenshots/login.jpg?raw=true "title")
-![title](/screenshots/register.jpg?raw=true "title")
+![](/screenshots/login.jpg | width=100)
+![](/screenshots/register.jpg | width=100)
 ## light mode
-![title](/screenshots/light_1.jpg?raw=true "title")
-![title](/screenshots/light_2.jpg?raw=true "title")
-![title](/screenshots/light_3.jpg?raw=true "title")
-![title](/screenshots/light_4.jpg?raw=true "title")
+![](/screenshots/light_1.jpg | width=100)
+![](/screenshots/light_2.jpg | width=100)
+![](/screenshots/light_3.jpg | width=100)
+![](/screenshots/light_4.jpg | width=100)
 ## dark mode
-![title](/screenshots/dark_1.jpg?raw=true "title")
-![title](/screenshots/dark_2.jpg?raw=true "title")
-![title](/screenshots/dark_3.jpg?raw=true "title")
-![title](/screenshots/dark_4.jpg?raw=true "title")
+![](/screenshots/dark_1.jpg | width=100)
+![](/screenshots/dark_2.jpg | width=100)
+![](/screenshots/dark_3.jpg | width=100)
+![](/screenshots/dark_4.jpg | width=100)
