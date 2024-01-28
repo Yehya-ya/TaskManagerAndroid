@@ -95,11 +95,6 @@ public class AccountUtils {
         MyRequestQueue.getInstance(application).addToRequestQueue(request);
     }
 
-    public static void verifyToken(Application application) {
-        verifyToken(application, success -> {
-        });
-    }
-
     public static void verifyToken(Application application, ActionListener listener) {
         String access_token = application.getSharedPreferences(application.getString(R.string.preference_file_key), Context.MODE_PRIVATE).getString(application.getString(R.string.access_token), null);
         MyRequest verifyRequest = new MyRequest();

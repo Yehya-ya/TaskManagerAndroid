@@ -39,7 +39,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private static final int LIST_LAYOUT = 102;
 
     private final Context mContext;
-    ProjectCollectionViewModel mProjectsModel;
+    final ProjectCollectionViewModel mProjectsModel;
     private List<Project> mProjects;
 
     public ProjectAdapter(Context context) {
@@ -47,9 +47,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.mProjects = new LinkedList<>();
         mProjectsModel = new ViewModelProvider((ViewModelStoreOwner) context).get(ProjectCollectionViewModel.class);
 
-        mProjectsModel.getProjects().observe((LifecycleOwner) context, projects -> {
-            setProjects(projects);
-        });
+        mProjectsModel.getProjects().observe((LifecycleOwner) context, this::setProjects);
 
     }
 
@@ -95,9 +93,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 ((ProjectViewHolder) holder).description.setVisibility(View.VISIBLE);
             }
             ((ProjectViewHolder) holder).project = project;
-            ((ProjectViewHolder) holder).menu.setOnClickListener(view -> {
-                showMenu(view, position);
-            });
+            ((ProjectViewHolder) holder).menu.setOnClickListener(view -> showMenu(view, position));
         }
     }
 
@@ -112,33 +108,27 @@ public class ProjectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         popupMenu.setOnMenuItemClickListener(item -> {
 
-            switch (item.getItemId()) {
-                case R.id.menu_edit:
-                    EditProjectDialogFragment fragment = new EditProjectDialogFragment(mProjects.get(position));
-                    fragment.setActionListener(success -> {
-                        if (success) {
-                            editProject(position, fragment.getTitle(), fragment.getDescription(), success1 -> {
-                                Toast.makeText(mContext, "Project has been updated successfully.", Toast.LENGTH_SHORT).show();
-                            });
-                        }
+            int itemId = item.getItemId();
+            if (itemId == R.id.menu_edit) {
+                EditProjectDialogFragment fragment = new EditProjectDialogFragment(mProjects.get(position));
+                fragment.setActionListener(success -> {
+                    if (success) {
+                        editProject(position, fragment.getTitle(), fragment.getDescription(), success1 -> {
+                            Toast.makeText(mContext, "Project has been updated successfully.", Toast.LENGTH_SHORT).show();
+                        });
+                    }
+                });
+                fragment.show(((AppCompatActivity) mContext).getSupportFragmentManager(), "edit fragment" + position);
+            } else if (itemId == R.id.menu_delete) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setTitle("Alert!!!").setMessage("Are you sure you want to delete this project?").setPositiveButton("yes", (dialogInterface, i) -> {
+                    deleteProject(position, success -> {
+                        Toast.makeText(mContext, "Project has been deleted successfully.", Toast.LENGTH_SHORT).show();
                     });
-                    fragment.show(((AppCompatActivity) mContext).getSupportFragmentManager(), "edit fragment" + position);
-                    break;
-                case R.id.menu_delete:
-                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                    builder.setTitle("Alert!!!")
-                            .setMessage("Are you sure you want to delete this project?")
-                            .setPositiveButton("yes", (dialogInterface, i) -> {
-                                deleteProject(position, success -> {
-                                    Toast.makeText(mContext, "Project has been deleted successfully.", Toast.LENGTH_SHORT).show();
-                                });
-                            })
-                            .setNegativeButton("No", (dialogInterface, i) -> {
-                                dialogInterface.dismiss();
-                            })
-                            .setIcon(R.drawable.ic_round_warning_24);
-                    builder.show();
-                    break;
+                }).setNegativeButton("No", (dialogInterface, i) -> {
+                    dialogInterface.dismiss();
+                }).setIcon(R.drawable.ic_round_warning_24);
+                builder.show();
             }
 
             return false;
@@ -170,10 +160,10 @@ public class ProjectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     static class ProjectViewHolder extends RecyclerView.ViewHolder {
 
         private final Context mContext;
-        CardView card;
-        TextView title;
-        TextView description;
-        ImageView menu;
+        final CardView card;
+        final TextView title;
+        final TextView description;
+        final ImageView menu;
         Project project;
 
         public ProjectViewHolder(@NonNull View itemView, Context context) {

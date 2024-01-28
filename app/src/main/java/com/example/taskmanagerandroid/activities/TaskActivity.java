@@ -39,10 +39,7 @@ import java.util.List;
 public class TaskActivity extends AppCompatActivity {
 
     private static final String TAG = "TaskActivity";
-    private int mProjectId;
-    private int mTaskId;
     private TaskViewModel mTaskViewModel;
-    private CategoryCollectionViewModel mCategoryCollectionViewModel;
     private List<Category> mCategories;
     private Task mTask;
     private EditText mTitle;
@@ -58,8 +55,8 @@ public class TaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
 
-        mProjectId = getIntent().getIntExtra("projectId", -1);
-        mTaskId = getIntent().getIntExtra("taskId", -1);
+        int mProjectId = getIntent().getIntExtra("projectId", -1);
+        int mTaskId = getIntent().getIntExtra("taskId", -1);
         mCategories = new LinkedList<>();
         if (mProjectId < 0 || mTaskId < 0) {
             Log.e(TAG, "no project id or task id.");
@@ -73,12 +70,8 @@ public class TaskActivity extends AppCompatActivity {
         mProjectTitle = findViewById(R.id.task_page_project_title);
         mCategoryTitle = findViewById(R.id.task_page_category_title);
 
-        setupEditTextListener(mTitle, success -> {
-            mTask.setTitle(mTitle.getText().toString());
-        });
-        setupEditTextListener(mDescription, success -> {
-            mTask.setDescription(mDescription.getText().toString());
-        });
+        setupEditTextListener(mTitle, success -> mTask.setTitle(mTitle.getText().toString()));
+        setupEditTextListener(mDescription, success -> mTask.setDescription(mDescription.getText().toString()));
 
         mTaskViewModel = new ViewModelProvider(this, new TaskViewModel.Factory(getApplication(), mProjectId, mTaskId)).get(TaskViewModel.class);
         mTaskViewModel.getTask().observe(this, task -> {
@@ -86,13 +79,14 @@ public class TaskActivity extends AppCompatActivity {
             update();
         });
 
-        mCategoryCollectionViewModel = new ViewModelProvider(this, new CategoryCollectionViewModel.Factory(getApplication(), mProjectId)).get(CategoryCollectionViewModel.class);
-        mCategoryCollectionViewModel.getCategories().observe(this, categories -> {
-            mCategories = categories;
-        });
+        CategoryCollectionViewModel mCategoryCollectionViewModel = new ViewModelProvider(this, new CategoryCollectionViewModel.Factory(getApplication(), mProjectId)).get(CategoryCollectionViewModel.class);
+        mCategoryCollectionViewModel.getCategories().observe(this, categories -> mCategories = categories);
 
         mEndAtView.setOnClickListener(view1 -> {
             Calendar endAt;
+            if (mTask == null) {
+                return;
+            }
             if (mTask.getEndAt() == null) {
                 endAt = Calendar.getInstance();
             } else {
@@ -186,39 +180,36 @@ public class TaskActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                setResult(RESULT_CANCELED);
-                finish();
-                break;
-            case R.id.confirm_edit:
-                mTaskViewModel.updateTask(
-                        mTask.getTitle(),
-                        mTask.getDescription(),
-                        mTask.getFormattedForServerEndAt(),
-                        mTask.getCategoryId(),
-                        success -> {
-                            if (success) {
-                                setResult(ProjectActivity.RESULT_TASK_UPDATED);
-                                finish();
-                                return;
-                            }
-                            Toast.makeText(this, "the given data is invalid.", Toast.LENGTH_SHORT).show();
+        int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
+            setResult(RESULT_CANCELED);
+            finish();
+        } else if (itemId == R.id.confirm_edit) {
+            mTaskViewModel.updateTask(
+                    mTask.getTitle(),
+                    mTask.getDescription(),
+                    mTask.getFormattedForServerEndAt(),
+                    mTask.getCategoryId(),
+                    success -> {
+                        if (success) {
+                            setResult(ProjectActivity.RESULT_TASK_UPDATED);
+                            finish();
+                            return;
                         }
-                );
-                break;
-            case R.id.confirm_delete:
-                mTaskViewModel.deleteTask(
-                        success -> {
-                            if (success) {
-                                setResult(ProjectActivity.RESULT_TASK_DELETED);
-                                finish();
-                                return;
-                            }
-                            Toast.makeText(this, "the given data is invalid.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "the given data is invalid.", Toast.LENGTH_SHORT).show();
+                    }
+            );
+        } else if (itemId == R.id.confirm_delete) {
+            mTaskViewModel.deleteTask(
+                    success -> {
+                        if (success) {
+                            setResult(ProjectActivity.RESULT_TASK_DELETED);
+                            finish();
+                            return;
                         }
-                );
-                break;
+                        Toast.makeText(this, "the given data is invalid.", Toast.LENGTH_SHORT).show();
+                    }
+            );
         }
         return super.onOptionsItemSelected(item);
     }

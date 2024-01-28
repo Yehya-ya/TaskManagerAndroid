@@ -1,6 +1,7 @@
 package com.example.taskmanagerandroid.fragments;
 
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
@@ -17,8 +18,9 @@ import androidx.fragment.app.DialogFragment;
 import com.example.taskmanagerandroid.R;
 import com.example.taskmanagerandroid.utils.ActionListener;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.TimeZone;
 
 public class NewTaskDialogFragment extends DialogFragment {
 
@@ -38,35 +40,22 @@ public class NewTaskDialogFragment extends DialogFragment {
         this.mDescription = view.findViewById(R.id.editTaskFragment_description);
         this.mDateButton = view.findViewById(R.id.buttonTaskFragment_date);
 
-        mDateButton.setOnClickListener(view1 -> {
+        this.mDateButton.setOnClickListener(view1 -> {
 
             if (mDate == null) {
                 mDate = Calendar.getInstance();
             }
-            DatePickerDialog datePickerFragment = new DatePickerDialog(
-                    getContext(),
-                    (datePicker, i, i1, i2) -> {
-                        mDate.set(i, i1, i2);
-                        mDateButton.setText(i + "/" + (i1 + 1) + "/" + i2);
-                    },
-                    mDate.get(Calendar.YEAR),
-                    mDate.get(Calendar.MONTH),
-                    mDate.get(Calendar.DAY_OF_MONTH)
-            );
-            Calendar date = Calendar.getInstance();
-            date.add(Calendar.DATE, 1);
-            datePickerFragment.getDatePicker().setMinDate(date.getTimeInMillis());
+            DatePickerDialog datePickerFragment = new DatePickerDialog(getContext(), (datePicker, i, i1, i2) -> {
+                mDate.set(i, i1, i2);
+                mDateButton.setText(getFormattedEndAt());
+            }, mDate.get(Calendar.YEAR), mDate.get(Calendar.MONTH), mDate.get(Calendar.DAY_OF_MONTH));
+            Calendar tomorrow = Calendar.getInstance();
+            tomorrow.add(Calendar.DATE, 1);
+            datePickerFragment.getDatePicker().setMinDate(tomorrow.getTimeInMillis());
             datePickerFragment.show();
         });
 
-        builder.setView(view)
-                .setTitle("Add New Task")
-                .setPositiveButton("Create", (dialogInterface, i) -> {
-                    listener.action(true);
-                })
-                .setNegativeButton("Cancel", (dialogInterface, i) -> {
-                    dismiss();
-                });
+        builder.setView(view).setTitle("Add New Task").setPositiveButton("Create", (dialogInterface, i) -> listener.action(true)).setNegativeButton("Cancel", (dialogInterface, i) -> dismiss());
 
         return builder.create();
     }
@@ -79,17 +68,20 @@ public class NewTaskDialogFragment extends DialogFragment {
         return mDescription.getText().toString();
     }
 
-    public String getDate() {
+    public String getFormattedEndAt() {
         if (mDate == null) {
             return null;
         }
-        Calendar temp = (Calendar) mDate.clone();
-        temp.setTimeZone(TimeZone.getTimeZone("UTC"));
-        return String.format("%1$s-%2$s-%3$sT00:00:00.000000Z",
-                mDate.get(Calendar.YEAR),
-                mDate.get(Calendar.MONTH) + 1,
-                mDate.get(Calendar.DAY_OF_MONTH)
-        );
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("d MMM yyyy");
+        return formatter.format(new Date(mDate.getTimeInMillis()));
+    }
+
+    public String getFormattedForServerEndAt() {
+        if (mDate == null) {
+            return null;
+        }
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("yyyy/M/d");
+        return formatter.format(new Date(mDate.getTimeInMillis()));
     }
 
     public void setActionListener(ActionListener listener) {

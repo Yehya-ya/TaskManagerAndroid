@@ -12,7 +12,6 @@ import com.example.taskmanagerandroid.fragments.NewProjectDialogFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class HomeActivity extends AbstractActivity {
-    private RecyclerView projectsView;
     private ProjectAdapter projectAdapter;
     private FloatingActionButton button;
 
@@ -23,7 +22,7 @@ public class HomeActivity extends AbstractActivity {
 
         getSupportActionBar().setTitle(getString(R.string.app_name));
 
-        projectsView = findViewById(R.id.projectRecycler);
+        RecyclerView projectsView = findViewById(R.id.projectRecycler);
         projectAdapter = new ProjectAdapter(this);
         projectsView.setAdapter(projectAdapter);
         projectsView.setLayoutManager(new LinearLayoutManager(this));

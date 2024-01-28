@@ -32,6 +32,7 @@
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:autofillHints=""
                 tools:text="Title" />
 
             <TextView
@@ -93,6 +94,7 @@
                     android:minWidth="20dp"
                     android:minHeight="20dp"
                     android:src="@drawable/ic_round_arrow_drop_down_24"
+                    android:contentDescription="TODO"
                     app:tint="?attr/colorPrimaryVariant" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -117,7 +119,6 @@
             app:layout_constraintTop_toBottomOf="@+id/materialCardView">
 
             <ImageView
-                android:id="@+id/imageFilterView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -137,6 +138,7 @@
                 android:textColor="?attr/colorPrimaryVariant"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                android:autofillHints=""
                 tools:text="@tools:sample/lorem/random" />
 
         </LinearLayout>
@@ -160,7 +162,6 @@
             app:layout_constraintTop_toBottomOf="@+id/materialCardView">
 
             <ImageView
-                android:id="@+id/imageFilterView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -195,6 +196,7 @@
                 android:focusable="true"
                 android:padding="0dp"
                 android:src="@drawable/ic_round_clear_24"
+                android:contentDescription="TODO"
                 app:tint="@color/gray" />
 
         </LinearLayout>

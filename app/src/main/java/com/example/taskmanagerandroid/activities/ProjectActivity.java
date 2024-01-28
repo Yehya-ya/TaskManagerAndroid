@@ -24,32 +24,28 @@ public class ProjectActivity extends AbstractActivity {
 
     private ActivityResultLauncher<Intent> launchSomeActivity;
     private CategoryCollectionAdapter mAdapter;
-    private ViewPager2 mViewPager;
-    private int project_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project);
 
-        project_id = getIntent().getIntExtra("project_id", -1);
-        Log.v("project_id", "" + project_id);
+        int project_id = getIntent().getIntExtra("project_id", -1);
+        Log.v("project_id", String.valueOf(project_id));
         if (project_id < 0) {
             Log.e(TAG, "no project id");
             finish();
             return;
         }
 
-        mViewPager = findViewById(R.id.viewpager);
+        ViewPager2 mViewPager = findViewById(R.id.viewpager);
         mAdapter = new CategoryCollectionAdapter(this, project_id);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mViewPager.setAdapter(mAdapter);
 
         ProjectViewModel projectModel = new ViewModelProvider(this, new ProjectViewModel.Factory(getApplication(), project_id)).get(ProjectViewModel.class);
-        projectModel.getProject().observe(this, project -> {
-            getSupportActionBar().setTitle(project.getTitle());
-        });
+        projectModel.getProject().observe(this, project -> getSupportActionBar().setTitle(project.getTitle()));
 
         launchSomeActivity = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -69,10 +65,8 @@ public class ProjectActivity extends AbstractActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
         }
         return super.onOptionsItemSelected(item);
     }

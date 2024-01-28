@@ -76,7 +76,7 @@ public class TaskCollectionViewModel extends AndroidViewModel {
         request.addParam("description", description);
         request.addParam("end_at", end_at);
 
-        request.addParam("category_id", "" + mCategoryId);
+        request.addParam("category_id", String.valueOf(mCategoryId));
         request.setResponse(response -> {
             try {
                 JSONObject data = new JSONObject(response).getJSONObject("data");
@@ -113,7 +113,7 @@ public class TaskCollectionViewModel extends AndroidViewModel {
         request.setMethod(Request.Method.PUT);
         request.setUrl(Route.getTasksMoveRoute(mProjectId, task.getId()));
         request.addAuthorizationHeader(AccountUtils.getAccessToken());
-        request.addParam("category_id", "" + categoryId);
+        request.addParam("category_id", String.valueOf(categoryId));
 
         request.setResponse(response -> {
             try {

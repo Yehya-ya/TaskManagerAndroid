@@ -66,7 +66,7 @@ public class TaskViewModel extends AndroidViewModel {
         request.setMethod(Request.Method.PUT);
         request.setUrl(Route.getTasksUpdateRoute(mProjectId, mTaskId));
         request.addAuthorizationHeader(AccountUtils.getAccessToken());
-        request.addParam("category_id", "" + categoryId);
+        request.addParam("category_id", String.valueOf(categoryId));
         request.addParam("title", title);
         request.addParam("description", description);
         request.addParam("end_at", end_at);
@@ -101,9 +101,7 @@ public class TaskViewModel extends AndroidViewModel {
         request.setUrl(Route.getTasksDeleteRoute(mProjectId, mTaskId));
         request.addAuthorizationHeader(AccountUtils.getAccessToken());
 
-        request.setResponse(response -> {
-            listener.action(true);
-        });
+        request.setResponse(response -> listener.action(true));
         request.setErrorHandler(new MyRequest.ErrorHandler() {
             @Override
             public void action() {

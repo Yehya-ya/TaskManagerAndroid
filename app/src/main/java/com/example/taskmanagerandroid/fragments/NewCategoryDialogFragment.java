@@ -30,12 +30,8 @@ public class NewCategoryDialogFragment extends DialogFragment {
 
         builder.setView(view)
                 .setTitle("Add New Category")
-                .setPositiveButton("Create", (dialogInterface, i) -> {
-                    listener.action(true);
-                })
-                .setNegativeButton("Cancel", (dialogInterface, i) -> {
-                    dismiss();
-                });
+                .setPositiveButton("Create", (dialogInterface, i) -> listener.action(true))
+                .setNegativeButton("Cancel", (dialogInterface, i) -> dismiss());
 
         return builder.create();
     }

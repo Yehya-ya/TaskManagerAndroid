@@ -105,37 +105,37 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void handlingErrors(JSONObject errors) {
                         if (errors.has("name")) {
-                            String error = "";
+                            StringBuilder error = new StringBuilder();
                             try {
                                 JSONArray array = errors.getJSONArray("name");
                                 for (int i = 0; i < array.length(); i++) {
-                                    error += "* " + array.getString(i) + "\n";
+                                    error.append("* ").append(array.getString(i)).append("\n");
                                 }
-                                mNameInputLayout.setError(error);
+                                mNameInputLayout.setError(error.toString());
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
                         if (errors.has("email")) {
-                            String error = "";
+                            StringBuilder error = new StringBuilder();
                             try {
                                 JSONArray array = errors.getJSONArray("email");
                                 for (int i = 0; i < array.length(); i++) {
-                                    error += "* " + array.getString(i) + "\n";
+                                    error.append("* ").append(array.getString(i)).append("\n");
                                 }
-                                mEmailInputLayout.setError(error);
+                                mEmailInputLayout.setError(error.toString());
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
                         if (errors.has("password")) {
-                            String error = "";
+                            StringBuilder error = new StringBuilder();
                             try {
                                 JSONArray array = errors.getJSONArray("password");
                                 for (int i = 0; i < array.length(); i++) {
-                                    error += "* " + array.getString(i) + "\n";
+                                    error.append("* ").append(array.getString(i)).append("\n");
                                 }
-                                mPasswordInputLayout.setError(error);
+                                mPasswordInputLayout.setError(error.toString());
                                 mConfirmPasswordInputLayout.setError(" ");
                             } catch (JSONException e) {
                                 e.printStackTrace();

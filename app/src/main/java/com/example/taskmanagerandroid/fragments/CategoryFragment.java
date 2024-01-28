@@ -42,35 +42,19 @@ public class CategoryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.mTaskModel = new ViewModelProvider(
-                this,
-                new TaskCollectionViewModel.Factory(
-                        getActivity().getApplication(),
-                        mCategory.getProjectId(),
-                        mCategory.getId()
-                )
-        ).get(TaskCollectionViewModel.class);
+        this.mTaskModel = new ViewModelProvider(this, new TaskCollectionViewModel.Factory(getActivity().getApplication(), mCategory.getProjectId(), mCategory.getId())).get(TaskCollectionViewModel.class);
 
-        this.mTaskViewAdapter = new TaskViewAdapter(
-                this,
-                success -> {
-                    NewTaskDialogFragment dialogFragment = new NewTaskDialogFragment();
-                    dialogFragment.setActionListener(success1 -> {
-                        mTaskModel.createTask(dialogFragment.getTitle(), dialogFragment.getDescription(), dialogFragment.getDate(), success2 -> {
-                            if (success2) {
-                                Toast.makeText(getActivity(), "Task has been created successfully.", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    });
-                    dialogFragment.show(getParentFragmentManager(), "newTask");
-                },
-                mPreviousCategory != 0,
-                mNextCategory != 0
-        );
+        this.mTaskViewAdapter = new TaskViewAdapter(this, success -> {
+            NewTaskDialogFragment dialogFragment = new NewTaskDialogFragment();
+            dialogFragment.setActionListener(success1 -> mTaskModel.createTask(dialogFragment.getTitle(), dialogFragment.getDescription(), dialogFragment.getFormattedForServerEndAt(), success2 -> {
+                if (success2) {
+                    Toast.makeText(getActivity(), "Task has been created successfully.", Toast.LENGTH_SHORT).show();
+                }
+            }));
+            dialogFragment.show(getParentFragmentManager(), "newTask");
+        }, mPreviousCategory != 0, mNextCategory != 0);
 
-        mTaskModel.getTasks().observe(getActivity(), tasks -> {
-            mTaskViewAdapter.setTasks(tasks);
-        });
+        mTaskModel.getTasks().observe(getActivity(), tasks -> mTaskViewAdapter.setTasks(tasks));
     }
 
     @Override
@@ -90,9 +74,7 @@ public class CategoryFragment extends Fragment {
         mTitle.setText(mCategory.getTitle());
 
         ImageView menu = view.findViewById(R.id.menu);
-        menu.setOnClickListener(view1 -> {
-            showMenu(view1);
-        });
+        menu.setOnClickListener(this::showMenu);
     }
 
     public void showMenu(View view) {
@@ -104,33 +86,27 @@ public class CategoryFragment extends Fragment {
         }
 
         popupMenu.setOnMenuItemClickListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.menu_edit:
-                    EditCategoryDialogFragment fragment = new EditCategoryDialogFragment(mCategory);
-                    fragment.setActionListener(success -> {
-                        if (success) {
-                            mCategoryAdapter.editCategory(mCategoryAdapter.getPosition(mCategory), fragment.getTitle(), fragment.getDescription(), success1 -> {
-                                Toast.makeText(getActivity(), "Category has been updated successfully.", Toast.LENGTH_SHORT).show();
-                            });
-                        }
+            int itemId = item.getItemId();
+            if (itemId == R.id.menu_edit) {
+                EditCategoryDialogFragment fragment = new EditCategoryDialogFragment(mCategory);
+                fragment.setActionListener(success -> {
+                    if (success) {
+                        mCategoryAdapter.editCategory(mCategoryAdapter.getPosition(mCategory), fragment.getTitle(), fragment.getDescription(), success1 -> {
+                            Toast.makeText(getActivity(), "Category has been updated successfully.", Toast.LENGTH_SHORT).show();
+                        });
+                    }
+                });
+                fragment.show(getParentFragmentManager(), "edit fragment");
+            } else if (itemId == R.id.menu_delete) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Alert!!!").setMessage("Are you sure you want to delete this category?").setPositiveButton("yes", (dialogInterface, i) -> {
+                    mCategoryAdapter.deleteCategory(mCategoryAdapter.getPosition(mCategory), success -> {
+                        Toast.makeText(getActivity(), "Category has been deleted successfully.", Toast.LENGTH_SHORT).show();
                     });
-                    fragment.show(getParentFragmentManager(), "edit fragment");
-                    break;
-                case R.id.menu_delete:
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setTitle("Alert!!!")
-                            .setMessage("Are you sure you want to delete this category?")
-                            .setPositiveButton("yes", (dialogInterface, i) -> {
-                                mCategoryAdapter.deleteCategory(mCategoryAdapter.getPosition(mCategory), success -> {
-                                    Toast.makeText(getActivity(), "Category has been deleted successfully.", Toast.LENGTH_SHORT).show();
-                                });
-                            })
-                            .setNegativeButton("No", (dialogInterface, i) -> {
-                                dialogInterface.dismiss();
-                            })
-                            .setIcon(R.drawable.ic_round_warning_24);
-                    builder.show();
-                    break;
+                }).setNegativeButton("No", (dialogInterface, i) -> {
+                    dialogInterface.dismiss();
+                }).setIcon(R.drawable.ic_round_warning_24);
+                builder.show();
             }
 
             return false;
@@ -142,8 +118,6 @@ public class CategoryFragment extends Fragment {
     }
 
     public void moveTask(int position, boolean isNext) {
-        mTaskModel.moveTask(position, isNext ? mNextCategory : mPreviousCategory, success -> {
-            mCategoryAdapter.reloadCategoryViewModel();
-        });
+        mTaskModel.moveTask(position, isNext ? mNextCategory : mPreviousCategory, success -> mCategoryAdapter.reloadCategoryViewModel());
     }
 }

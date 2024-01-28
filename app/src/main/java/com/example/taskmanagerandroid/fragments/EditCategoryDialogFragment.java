@@ -36,12 +36,8 @@ public class EditCategoryDialogFragment extends DialogFragment {
 
         builder.setView(view)
                 .setTitle("Edit The Category")
-                .setPositiveButton("Update", (dialogInterface, i) -> {
-                    listener.action(true);
-                })
-                .setNegativeButton("Cancel", (dialogInterface, i) -> {
-                    dismiss();
-                });
+                .setPositiveButton("Update", (dialogInterface, i) -> listener.action(true))
+                .setNegativeButton("Cancel", (dialogInterface, i) -> dismiss());
 
         return builder.create();
     }

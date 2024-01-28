@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <item name="logo_04" type="drawable">@drawable/logo_02</item>
     <item name="ic_baseline_light_mode_24" type="drawable">@drawable/ic_baseline_dark_mode_24</item>
@@ -18,7 +18,7 @@
         <item name="backgroundColor">@color/black_pure</item>
         <item name="colorOnBackground">@color/white</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="colorControlNormal">@color/white</item>
     </style>
@@ -38,7 +38,7 @@
         <item name="backgroundColor">@color/black_pure</item>
         <item name="colorOnBackground">@color/white</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="colorControlNormal">@color/white</item>
     </style>

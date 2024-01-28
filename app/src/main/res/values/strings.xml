@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Tasks Manager</string>
-    <string name="register_button">Welcome</string>
     <string name="preference_file_key">account</string>
     <string name="access_token">access_token</string>
 </resources>

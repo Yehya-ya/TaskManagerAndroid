@@ -66,25 +66,25 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void handlingErrors(JSONObject errors) {
                         if (errors.has("email")) {
-                            String error = "";
+                            StringBuilder error = new StringBuilder();
                             try {
                                 JSONArray array = errors.getJSONArray("email");
                                 for (int i = 0; i < array.length(); i++) {
-                                    error += "* " + array.getString(i) + "\n";
+                                    error.append("* ").append(array.getString(i)).append("\n");
                                 }
-                                mEmailLayout.setError(error);
+                                mEmailLayout.setError(error.toString());
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
                         if (errors.has("password")) {
-                            String error = "";
+                            StringBuilder error = new StringBuilder();
                             try {
                                 JSONArray array = errors.getJSONArray("password");
                                 for (int i = 0; i < array.length(); i++) {
-                                    error += "* " + array.getString(i) + "\n";
+                                    error.append("* ").append(array.getString(i)).append("\n");
                                 }
-                                mPasswordLayout.setError(error);
+                                mPasswordLayout.setError(error.toString());
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

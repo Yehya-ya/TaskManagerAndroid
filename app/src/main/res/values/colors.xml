@@ -11,6 +11,5 @@
     <color name='trans'>#00FFFFFF</color>
     <color name="danger">#B00020</color>
     <color name="gray">#FF606060</color>
-    <color name="gray_light">#FF808080</color>
     <color name="disabled">#55555555</color>
 </resources>

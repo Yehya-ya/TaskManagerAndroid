@@ -83,18 +83,14 @@ public class TaskViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 taskViewHolder.endAt.setText(" " + formatter.format(task.getEndAt()));
             }
             if (mHasNext) {
-                taskViewHolder.next.setOnClickListener(view -> {
-                    mCategoryFragment.moveTask(position, true);
-                });
+                taskViewHolder.next.setOnClickListener(view -> mCategoryFragment.moveTask(position, true));
             } else {
                 taskViewHolder.next.setClickable(false);
                 taskViewHolder.next.setFocusable(false);
                 taskViewHolder.next.setAlpha(0.5f);
             }
             if (mHasPrevious) {
-                taskViewHolder.previous.setOnClickListener(view -> {
-                    mCategoryFragment.moveTask(position, false);
-                });
+                taskViewHolder.previous.setOnClickListener(view -> mCategoryFragment.moveTask(position, false));
             } else {
                 taskViewHolder.previous.setClickable(false);
                 taskViewHolder.previous.setFocusable(false);
@@ -157,9 +153,7 @@ public class TaskViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             super(itemView);
             Button mButton = itemView.findViewById(R.id.create_new_task);
 
-            mButton.setOnClickListener(view -> {
-                listener.action(true);
-            });
+            mButton.setOnClickListener(view -> listener.action(true));
         }
     }
 }
