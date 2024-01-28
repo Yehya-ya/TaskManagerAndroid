@@ -1,7 +1,7 @@
 package com.example.taskmanagerandroid.utils;
 
 public class Route {
-    private static final String BASE_URL = "https://tasks-manager-y.herokuapp.com/api";
+    private static final String BASE_URL = "https://task-manager.yehya.dev/api";
     private static final String PROJECTS = BASE_URL + "/projects";
     private static final String USERS = BASE_URL + "/users";
 
